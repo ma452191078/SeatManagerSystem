@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sdl.seatms.project.system.mtPerson.mapper.MtPersonMapper">
+    
+    <resultMap type="MtPerson" id="MtPersonResult">
+        <result property="personId"    column="person_id"    />
+        <result property="personCode"    column="person_code"    />
+        <result property="personName"    column="person_name"    />
+        <result property="personDept"    column="person_dept"    />
+        <result property="personRow"    column="person_row"    />
+        <result property="personCol"    column="person_col"    />
+    </resultMap>
+	
+	<sql id="selectMtPersonVo">
+        select person_id, person_code, person_name, person_dept, person_row, person_col from mt_person
+    </sql>
+	
+    <select id="selectMtPersonList" parameterType="MtPerson" resultMap="MtPersonResult">
+        <include refid="selectMtPersonVo"/>
+        <where>  
+            <if test="personId != null  and personId != '' "> and person_id = #{personId}</if>
+             <if test="personCode != null  and personCode != '' "> and person_code = #{personCode}</if>
+             <if test="personName != null  and personName != '' "> and person_name = #{personName}</if>
+             <if test="personDept != null  and personDept != '' "> and person_dept = #{personDept}</if>
+             <if test="personRow != null "> and person_row = #{personRow}</if>
+             <if test="personCol != null "> and person_col = #{personCol}</if>
+         </where>
+    </select>
+    
+    <select id="selectMtPersonById" parameterType="String" resultMap="MtPersonResult">
+        <include refid="selectMtPersonVo"/>
+        where person_id = #{personId}
+    </select>
+        
+    <insert id="insertMtPerson" parameterType="MtPerson">
+        insert into mt_person
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="personId != null  and personId != ''  ">person_id,</if>
+			<if test="personCode != null  and personCode != ''  ">person_code,</if>
+			<if test="personName != null  and personName != ''  ">person_name,</if>
+			<if test="personDept != null  and personDept != ''  ">person_dept,</if>
+			<if test="personRow != null  ">person_row,</if>
+			<if test="personCol != null  ">person_col,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="personId != null  and personId != ''  ">#{personId},</if>
+			<if test="personCode != null  and personCode != ''  ">#{personCode},</if>
+			<if test="personName != null  and personName != ''  ">#{personName},</if>
+			<if test="personDept != null  and personDept != ''  ">#{personDept},</if>
+			<if test="personRow != null  ">#{personRow},</if>
+			<if test="personCol != null  ">#{personCol},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateMtPerson" parameterType="MtPerson">
+        update mt_person
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="personCode != null  and personCode != ''  ">person_code = #{personCode},</if>
+            <if test="personName != null  and personName != ''  ">person_name = #{personName},</if>
+            <if test="personDept != null  and personDept != ''  ">person_dept = #{personDept},</if>
+            <if test="personRow != null  ">person_row = #{personRow},</if>
+            <if test="personCol != null  ">person_col = #{personCol},</if>
+        </trim>
+        where person_id = #{personId}
+    </update>
+
+	<delete id="deleteMtPersonById" parameterType="String">
+        delete from mt_person where person_id = #{personId}
+    </delete>
+	
+    <delete id="deleteMtPersonByIds" parameterType="String">
+        delete from mt_person where person_id in 
+        <foreach item="personId" collection="array" open="(" separator="," close=")">
+            #{personId}
+        </foreach>
+    </delete>
+    
+</mapper>

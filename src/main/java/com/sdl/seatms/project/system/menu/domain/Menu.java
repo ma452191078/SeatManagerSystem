@@ -1,5 +1,6 @@
 package com.sdl.seatms.project.system.menu.domain;
 
+import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import com.sdl.seatms.framework.web.domain.BaseEntity;
  * 
  * @author sdl
  */
+@Data
 public class Menu extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
@@ -51,144 +53,4 @@ public class Menu extends BaseEntity
     /** 子菜单 */
     private List<Menu> children = new ArrayList<Menu>();
 
-    public Long getMenuId()
-    {
-        return menuId;
-    }
-
-    public void setMenuId(Long menuId)
-    {
-        this.menuId = menuId;
-    }
-
-    public String getMenuName()
-    {
-        return menuName;
-    }
-
-    public void setMenuName(String menuName)
-    {
-        this.menuName = menuName;
-    }
-
-    public String getParentName()
-    {
-        return parentName;
-    }
-
-    public void setParentName(String parentName)
-    {
-        this.parentName = parentName;
-    }
-
-    public Long getParentId()
-    {
-        return parentId;
-    }
-
-    public void setParentId(Long parentId)
-    {
-        this.parentId = parentId;
-    }
-
-    public String getOrderNum()
-    {
-        return orderNum;
-    }
-
-    public void setOrderNum(String orderNum)
-    {
-        this.orderNum = orderNum;
-    }
-
-    public String getUrl()
-    {
-        return url;
-    }
-
-    public void setUrl(String url)
-    {
-        this.url = url;
-    }
-
-    public String getTarget()
-    {
-        return target;
-    }
-
-    public void setTarget(String target)
-    {
-        this.target = target;
-    }
-
-    public String getMenuType()
-    {
-        return menuType;
-    }
-
-    public void setMenuType(String menuType)
-    {
-        this.menuType = menuType;
-    }
-
-    public String getVisible()
-    {
-        return visible;
-    }
-
-    public void setVisible(String visible)
-    {
-        this.visible = visible;
-    }
-
-    public String getPerms()
-    {
-        return perms;
-    }
-
-    public void setPerms(String perms)
-    {
-        this.perms = perms;
-    }
-
-    public String getIcon()
-    {
-        return icon;
-    }
-
-    public void setIcon(String icon)
-    {
-        this.icon = icon;
-    }
-
-    public List<Menu> getChildren()
-    {
-        return children;
-    }
-
-    public void setChildren(List<Menu> children)
-    {
-        this.children = children;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("menuId", getMenuId())
-            .append("menuName", getMenuName())
-            .append("parentId", getParentId())
-            .append("orderNum", getOrderNum())
-            .append("url", getUrl())
-            .append("target", getTarget())
-            .append("menuType", getMenuType())
-            .append("visible", getVisible())
-            .append("perms", getPerms())
-            .append("icon", getIcon())
-            .append("createBy", getCreateBy())
-            .append("createTime", getCreateTime())
-            .append("updateBy", getUpdateBy())
-            .append("updateTime", getUpdateTime())
-            .append("remark", getRemark())
-            .toString();
-    }
 }

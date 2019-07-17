@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+	<th:block th:include="include :: header('座次图列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+						<ul>
+							<li>
+								会议ID：<input type="text" name="meetId"/>
+							</li>
+
+							<li>
+								区域：<input type="text" name="areaId"/>
+							</li>
+
+							<li>
+								行数：<input type="text" name="thumRow"/>
+							</li>
+
+							<li>
+								列数：<input type="text" name="thumCol"/>
+							</li>
+
+							<li>
+								：<input type="text" name="createBy"/>
+							</li>
+
+							<li>
+								：<input type="text" name="createTime"/>
+							</li>
+
+							<li>
+								：<input type="text" name="updateBy"/>
+							</li>
+
+							<li>
+								：<input type="text" name="updateTime"/>
+							</li>
+
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+	        <div class="btn-group-sm" id="toolbar" role="group">
+				<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="meeting:mtThumInfo:add">
+					<i class="fa fa-plus"></i> 添加
+				</a>
+				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.edit()" shiro:hasPermission="meeting:mtThumInfo:edit">
+					<i class="fa fa-edit"></i> 修改
+				</a>
+				<a class="btn btn-danger btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="meeting:mtThumInfo:remove">
+					<i class="fa fa-remove"></i> 删除
+				</a>
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="meeting:mtThumInfo:export">
+						<i class="fa fa-download"></i> 导出
+				 </a>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('meeting:mtThumInfo:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('meeting:mtThumInfo:remove')}]];
+        var prefix = ctx + "meeting/mtThumInfo";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+                modalName: "座次图",
+		        showExport: true,
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'thumId', 
+					title : '缩略图id',
+					visible: false
+				},
+				{
+					field : 'meetId', 
+					title : '会议ID',
+					sortable: true
+				},
+				{
+					field : 'areaId', 
+					title : '区域',
+					sortable: true
+				},
+				{
+					field : 'thumRow', 
+					title : '行数',
+					sortable: true
+				},
+				{
+					field : 'thumCol', 
+					title : '列数',
+					sortable: true
+				},
+				{
+					field : 'createBy', 
+					title : '',
+					sortable: true
+				},
+				{
+					field : 'createTime', 
+					title : '',
+					sortable: true
+				},
+				{
+					field : 'updateBy', 
+					title : '',
+					sortable: true
+				},
+				{
+					field : 'updateTime', 
+					title : '',
+					sortable: true
+				},
+		        {
+		            title: '操作',
+		            align: 'center',
+		            formatter: function(value, row, index) {
+		            	var actions = [];
+		            	actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.thumId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.thumId + '\')"><i class="fa fa-remove"></i>删除</a>');
+						return actions.join('');
+		            }
+		        }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sdl.seatms.project.system.mtThumInfo.mapper.MtThumInfoMapper">
+    
+    <resultMap type="MtThumInfo" id="MtThumInfoResult">
+        <result property="thumId"    column="thum_id"    />
+        <result property="meetId"    column="meet_id"    />
+        <result property="areaId"    column="area_id"    />
+        <result property="thumRow"    column="thum_row"    />
+        <result property="thumCol"    column="thum_col"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+	
+	<sql id="selectMtThumInfoVo">
+        select thum_id, meet_id, area_id, thum_row, thum_col, create_by, create_time, update_by, update_time from mt_thum_info
+    </sql>
+	
+    <select id="selectMtThumInfoList" parameterType="MtThumInfo" resultMap="MtThumInfoResult">
+        <include refid="selectMtThumInfoVo"/>
+        <where>  
+            <if test="thumId != null  and thumId != '' "> and thum_id = #{thumId}</if>
+             <if test="meetId != null  and meetId != '' "> and meet_id = #{meetId}</if>
+             <if test="areaId != null  and areaId != '' "> and area_id = #{areaId}</if>
+             <if test="thumRow != null "> and thum_row = #{thumRow}</if>
+             <if test="thumCol != null "> and thum_col = #{thumCol}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+         </where>
+    </select>
+    
+    <select id="selectMtThumInfoById" parameterType="String" resultMap="MtThumInfoResult">
+        <include refid="selectMtThumInfoVo"/>
+        where thum_id = #{thumId}
+    </select>
+        
+    <insert id="insertMtThumInfo" parameterType="MtThumInfo">
+        insert into mt_thum_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="thumId != null  and thumId != ''  ">thum_id,</if>
+			<if test="meetId != null  and meetId != ''  ">meet_id,</if>
+			<if test="areaId != null  and areaId != ''  ">area_id,</if>
+			<if test="thumRow != null  ">thum_row,</if>
+			<if test="thumCol != null  ">thum_col,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			<if test="updateTime != null  ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="thumId != null  and thumId != ''  ">#{thumId},</if>
+			<if test="meetId != null  and meetId != ''  ">#{meetId},</if>
+			<if test="areaId != null  and areaId != ''  ">#{areaId},</if>
+			<if test="thumRow != null  ">#{thumRow},</if>
+			<if test="thumCol != null  ">#{thumCol},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			<if test="updateTime != null  ">#{updateTime},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateMtThumInfo" parameterType="MtThumInfo">
+        update mt_thum_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="meetId != null  and meetId != ''  ">meet_id = #{meetId},</if>
+            <if test="areaId != null  and areaId != ''  ">area_id = #{areaId},</if>
+            <if test="thumRow != null  ">thum_row = #{thumRow},</if>
+            <if test="thumCol != null  ">thum_col = #{thumCol},</if>
+            <if test="createBy != null  and createBy != ''  ">create_by = #{createBy},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+        </trim>
+        where thum_id = #{thumId}
+    </update>
+
+	<delete id="deleteMtThumInfoById" parameterType="String">
+        delete from mt_thum_info where thum_id = #{thumId}
+    </delete>
+	
+    <delete id="deleteMtThumInfoByIds" parameterType="String">
+        delete from mt_thum_info where thum_id in 
+        <foreach item="thumId" collection="array" open="(" separator="," close=")">
+            #{thumId}
+        </foreach>
+    </delete>
+    
+</mapper>

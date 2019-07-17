@@ -54,7 +54,7 @@ spring:
                         multi-statement-allow: true
 
 # 企业微信配置
-wechatConfig:
+wechatconfig:
     corpId: wxe83ec6aeca12528c
     agentId: 39
     secret: 7xwrmPgxbb-ytAiWq1WJz6c-M2GNR3SHNumO2_h4uFA

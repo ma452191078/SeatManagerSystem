@@ -1,0 +1,54 @@
+package com.sdl.seatms.project.system.mtPerson.service;
+
+import com.sdl.seatms.project.system.mtPerson.domain.MtPerson;
+import java.util.List;
+
+/**
+ * 参会人员 服务层
+ * 
+ * @author sdl
+ * @date 2019-07-17
+ */
+public interface IMtPersonService 
+{
+	/**
+     * 查询参会人员信息
+     * 
+     * @param personId 参会人员ID
+     * @return 参会人员信息
+     */
+	public MtPerson selectMtPersonById(String personId);
+	
+	/**
+     * 查询参会人员列表
+     * 
+     * @param mtPerson 参会人员信息
+     * @return 参会人员集合
+     */
+	public List<MtPerson> selectMtPersonList(MtPerson mtPerson);
+	
+	/**
+     * 新增参会人员
+     * 
+     * @param mtPerson 参会人员信息
+     * @return 结果
+     */
+	public int insertMtPerson(MtPerson mtPerson);
+	
+	/**
+     * 修改参会人员
+     * 
+     * @param mtPerson 参会人员信息
+     * @return 结果
+     */
+	public int updateMtPerson(MtPerson mtPerson);
+		
+	/**
+     * 删除参会人员信息
+     * 
+     * @param ids 需要删除的数据ID
+     * @return 结果
+     */
+	public int deleteMtPersonByIds(String ids);
+	
+}
