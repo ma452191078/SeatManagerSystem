@@ -15,37 +15,8 @@
 							</li>
 
 							<li>
-								开始时间：<input type="text" name="meetStart"/>
-							</li>
-
-							<li>
-								结束时间：<input type="text" name="meetEnd"/>
-							</li>
-
-							<li>
-								会议logo：<input type="text" name="meetLogo"/>
-							</li>
-
-							<li>
 								会议主题：<input type="text" name="meetTitle"/>
 							</li>
-
-							<li>
-								创建人：<input type="text" name="createBy"/>
-							</li>
-
-							<li>
-								创建时间：<input type="text" name="createTime"/>
-							</li>
-
-							<li>
-								修改人：<input type="text" name="updateBy"/>
-							</li>
-
-							<li>
-								修改时间：<input type="text" name="updateTime"/>
-							</li>
-
 							<li>
 								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
 								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
@@ -56,7 +27,7 @@
 			</div>
 			
 	        <div class="btn-group-sm" id="toolbar" role="group">
-				<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="meeting:mtMeetInfo:add">
+				<a class="btn btn-success" onclick="$.operate.addFull()" shiro:hasPermission="meeting:mtMeetInfo:add">
 					<i class="fa fa-plus"></i> 添加
 				</a>
 				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.edit()" shiro:hasPermission="meeting:mtMeetInfo:edit">
@@ -113,11 +84,6 @@
 					sortable: true
 				},
 				{
-					field : 'meetLogo', 
-					title : '会议logo',
-					sortable: true
-				},
-				{
 					field : 'meetTitle', 
 					title : '会议主题',
 					sortable: true
@@ -132,21 +98,13 @@
 					title : '创建时间',
 					sortable: true
 				},
-				{
-					field : 'updateBy', 
-					title : '修改人',
-					sortable: true
-				},
-				{
-					field : 'updateTime', 
-					title : '修改时间',
-					sortable: true
-				},
 		        {
 		            title: '操作',
 		            align: 'center',
 		            formatter: function(value, row, index) {
 		            	var actions = [];
+		            	actions.push('<a class="btn btn-primary btn-xs" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.meetId + '\')"><i class="fa fa-edit"></i>参会人员</a> ');
+		            	actions.push('<a class="btn btn-warning btn-xs" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.meetId + '\')"><i class="fa fa-edit"></i>座次图</a> ');
 		            	actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.meetId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
                         actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.meetId + '\')"><i class="fa fa-remove"></i>删除</a>');
 						return actions.join('');
@@ -154,6 +112,8 @@
 		        }]
             };
             $.table.init(options);
+
+
         });
     </script>
 </body>

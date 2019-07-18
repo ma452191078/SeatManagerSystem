@@ -1,6 +1,9 @@
 package com.sdl.seatms.project.system.mtMeetInfo.controller;
 
 import java.util.List;
+import java.util.UUID;
+
+import com.sdl.seatms.common.utils.security.ShiroUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -86,6 +89,8 @@ public class MtMeetInfoController extends BaseController
 	@ResponseBody
 	public AjaxResult addSave(MtMeetInfo mtMeetInfo)
 	{		
+		mtMeetInfo.setMeetId(UUID.randomUUID().toString());
+		mtMeetInfo.setCreateBy(ShiroUtils.getSysUser().getUserName());
 		return toAjax(mtMeetInfoService.insertMtMeetInfo(mtMeetInfo));
 	}
 

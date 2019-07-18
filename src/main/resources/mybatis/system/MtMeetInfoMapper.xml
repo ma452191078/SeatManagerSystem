@@ -52,9 +52,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="meetLogo != null  and meetLogo != ''  ">meet_logo,</if>
 			<if test="meetTitle != null  and meetTitle != ''  ">meet_title,</if>
 			<if test="createBy != null  and createBy != ''  ">create_by,</if>
-			<if test="createTime != null  ">create_time,</if>
-			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
-			<if test="updateTime != null  ">update_time,</if>
+            create_time
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="meetId != null  and meetId != ''  ">#{meetId},</if>
@@ -64,9 +62,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="meetLogo != null  and meetLogo != ''  ">#{meetLogo},</if>
 			<if test="meetTitle != null  and meetTitle != ''  ">#{meetTitle},</if>
 			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
-			<if test="createTime != null  ">#{createTime},</if>
-			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
-			<if test="updateTime != null  ">#{updateTime},</if>
+			sysdate()
          </trim>
     </insert>
 	 
@@ -81,7 +77,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createBy != null  and createBy != ''  ">create_by = #{createBy},</if>
             <if test="createTime != null  ">create_time = #{createTime},</if>
             <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
-            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+            update_time = sysdate(),
         </trim>
         where meet_id = #{meetId}
     </update>
