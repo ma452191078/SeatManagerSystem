@@ -1,3 +1,18 @@
+# 项目相关配置
+seatms:
+    # 名称
+    name: SeatMS
+    # 版本
+    version: 3.4.0
+    # 版权年份
+    copyrightYear: 2019
+    # 实例演示开关
+    demoEnabled: true
+    # 文件路径
+    profile: /Users/majingyuan/profile/
+    # 获取ip地址开关
+    addressEnabled: true
+
 # 数据源配置
 spring:
     datasource:

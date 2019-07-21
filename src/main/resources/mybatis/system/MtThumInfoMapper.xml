@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sdl.seatms.project.system.mtThumInfo.mapper.MtThumInfoMapper">
+<mapper namespace="com.sdl.seatms.project.system.mtthuminfo.mapper.MtThumInfoMapper">
     
     <resultMap type="MtThumInfo" id="MtThumInfoResult">
         <result property="thumId"    column="thum_id"    />
@@ -49,9 +49,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="thumRow != null  ">thum_row,</if>
 			<if test="thumCol != null  ">thum_col,</if>
 			<if test="createBy != null  and createBy != ''  ">create_by,</if>
-			<if test="createTime != null  ">create_time,</if>
-			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
-			<if test="updateTime != null  ">update_time,</if>
+			create_time
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="thumId != null  and thumId != ''  ">#{thumId},</if>
@@ -60,9 +58,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="thumRow != null  ">#{thumRow},</if>
 			<if test="thumCol != null  ">#{thumCol},</if>
 			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
-			<if test="createTime != null  ">#{createTime},</if>
-			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
-			<if test="updateTime != null  ">#{updateTime},</if>
+			sysdate()
          </trim>
     </insert>
 	 
@@ -73,10 +69,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="areaId != null  and areaId != ''  ">area_id = #{areaId},</if>
             <if test="thumRow != null  ">thum_row = #{thumRow},</if>
             <if test="thumCol != null  ">thum_col = #{thumCol},</if>
-            <if test="createBy != null  and createBy != ''  ">create_by = #{createBy},</if>
-            <if test="createTime != null  ">create_time = #{createTime},</if>
             <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
-            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+            update_time = sysdate()
         </trim>
         where thum_id = #{thumId}
     </update>

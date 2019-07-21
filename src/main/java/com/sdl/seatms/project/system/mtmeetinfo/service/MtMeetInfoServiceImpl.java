@@ -1,11 +1,10 @@
-package com.sdl.seatms.project.system.mtMeetInfo.service;
+package com.sdl.seatms.project.system.mtmeetinfo.service;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.sdl.seatms.project.system.mtMeetInfo.mapper.MtMeetInfoMapper;
-import com.sdl.seatms.project.system.mtMeetInfo.domain.MtMeetInfo;
-import com.sdl.seatms.project.system.mtMeetInfo.service.IMtMeetInfoService;
+import com.sdl.seatms.project.system.mtmeetinfo.mapper.MtMeetInfoMapper;
+import com.sdl.seatms.project.system.mtmeetinfo.domain.MtMeetInfo;
 import com.sdl.seatms.common.utils.text.Convert;
 
 /**

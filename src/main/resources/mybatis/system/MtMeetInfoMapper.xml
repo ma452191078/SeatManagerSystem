@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sdl.seatms.project.system.mtMeetInfo.mapper.MtMeetInfoMapper">
+<mapper namespace="com.sdl.seatms.project.system.mtmeetinfo.mapper.MtMeetInfoMapper">
     
     <resultMap type="MtMeetInfo" id="MtMeetInfoResult">
         <result property="meetId"    column="meet_id"    />
@@ -15,10 +15,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createTime"    column="create_time"    />
         <result property="updateBy"    column="update_by"    />
         <result property="updateTime"    column="update_time"    />
+        <result property="meetRow"    column="meet_row"    />
+        <result property="meetCol"    column="meet_col"    />
+        <association property="meetPersonNum" column="meet_id"
+                     select="com.sdl.seatms.project.system.mtperson.mapper.MtPersonMapper.selectPersonCount" />
     </resultMap>
 	
 	<sql id="selectMtMeetInfoVo">
-        select meet_id, meet_name, meet_start, meet_end, meet_logo, meet_title, create_by, create_time, update_by, update_time from mt_meet_info
+        select meet_id, meet_name, meet_start, meet_end, meet_logo, meet_title,
+         create_by, create_time, update_by, update_time, meet_row, meet_col from mt_meet_info
     </sql>
 	
     <select id="selectMtMeetInfoList" parameterType="MtMeetInfo" resultMap="MtMeetInfoResult">
@@ -49,6 +54,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="meetName != null  and meetName != ''  ">meet_name,</if>
 			<if test="meetStart != null  ">meet_start,</if>
 			<if test="meetEnd != null  ">meet_end,</if>
+			<if test="meetRow != null  ">meet_row,</if>
+			<if test="meetCol != null  ">meet_col,</if>
 			<if test="meetLogo != null  and meetLogo != ''  ">meet_logo,</if>
 			<if test="meetTitle != null  and meetTitle != ''  ">meet_title,</if>
 			<if test="createBy != null  and createBy != ''  ">create_by,</if>
@@ -59,6 +66,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="meetName != null  and meetName != ''  ">#{meetName},</if>
 			<if test="meetStart != null  ">#{meetStart},</if>
 			<if test="meetEnd != null  ">#{meetEnd},</if>
+            <if test="meetRow != null  ">#{meetRow},</if>
+            <if test="meetCol != null  ">#{meetCol},</if>
 			<if test="meetLogo != null  and meetLogo != ''  ">#{meetLogo},</if>
 			<if test="meetTitle != null  and meetTitle != ''  ">#{meetTitle},</if>
 			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
@@ -72,6 +81,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="meetName != null  and meetName != ''  ">meet_name = #{meetName},</if>
             <if test="meetStart != null  ">meet_start = #{meetStart},</if>
             <if test="meetEnd != null  ">meet_end = #{meetEnd},</if>
+            <if test="meetRow != null  ">meet_row = #{meetRow},</if>
+            <if test="meetCol != null  ">meet_col = #{meetCol},</if>
             <if test="meetLogo != null  and meetLogo != ''  ">meet_logo = #{meetLogo},</if>
             <if test="meetTitle != null  and meetTitle != ''  ">meet_title = #{meetTitle},</if>
             <if test="createBy != null  and createBy != ''  ">create_by = #{createBy},</if>

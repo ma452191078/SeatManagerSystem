@@ -1,4 +1,4 @@
-package com.sdl.seatms.project.system.mtThumInfo.domain;
+package com.sdl.seatms.project.system.mtthuminfo.domain;
 
 
 import com.sdl.seatms.framework.web.domain.BaseEntity;

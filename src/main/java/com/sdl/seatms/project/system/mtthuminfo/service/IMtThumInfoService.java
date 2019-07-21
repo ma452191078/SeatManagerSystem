@@ -1,6 +1,6 @@
-package com.sdl.seatms.project.system.mtThumInfo.service;
+package com.sdl.seatms.project.system.mtthuminfo.service;
 
-import com.sdl.seatms.project.system.mtThumInfo.domain.MtThumInfo;
+import com.sdl.seatms.project.system.mtthuminfo.domain.MtThumInfo;
 import java.util.List;
 
 /**

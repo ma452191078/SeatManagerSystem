@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sdl.seatms.project.system.mtPerson.mapper.MtPersonMapper">
+<mapper namespace="com.sdl.seatms.project.system.mtperson.mapper.MtPersonMapper">
     
     <resultMap type="MtPerson" id="MtPersonResult">
         <result property="personId"    column="person_id"    />
@@ -11,10 +11,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="personDept"    column="person_dept"    />
         <result property="personRow"    column="person_row"    />
         <result property="personCol"    column="person_col"    />
+        <result property="meetId"    column="meet_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
     </resultMap>
 	
 	<sql id="selectMtPersonVo">
-        select person_id, person_code, person_name, person_dept, person_row, person_col from mt_person
+        select person_id, person_code, person_name, person_dept, person_row, person_col,
+         create_by, create_time, update_by, update_time from mt_person
     </sql>
 	
     <select id="selectMtPersonList" parameterType="MtPerson" resultMap="MtPersonResult">
@@ -26,12 +32,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
              <if test="personDept != null  and personDept != '' "> and person_dept = #{personDept}</if>
              <if test="personRow != null "> and person_row = #{personRow}</if>
              <if test="personCol != null "> and person_col = #{personCol}</if>
+             <if test="meetId != null and meetId != '' "> and meet_id = #{meetId}</if>
          </where>
     </select>
     
     <select id="selectMtPersonById" parameterType="String" resultMap="MtPersonResult">
         <include refid="selectMtPersonVo"/>
         where person_id = #{personId}
+    </select>
+    <select id="selectMtPersonByCode" parameterType="String" resultMap="MtPersonResult">
+        <include refid="selectMtPersonVo"/>
+        where person_code = #{personCode}
+    </select>
+    <select id="selectMtPersonByObject" parameterType="MtPerson" resultMap="MtPersonResult">
+        <include refid="selectMtPersonVo"/>
+        where person_code = #{personCode}
+        and meet_id = #{meetId}
+    </select>
+    <select id="selectPersonCount" parameterType="String" resultType="Integer">
+        select count(1) as person_num from mt_person
+        where meet_id = #{meetId}
     </select>
         
     <insert id="insertMtPerson" parameterType="MtPerson">
@@ -41,16 +61,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="personCode != null  and personCode != ''  ">person_code,</if>
 			<if test="personName != null  and personName != ''  ">person_name,</if>
 			<if test="personDept != null  and personDept != ''  ">person_dept,</if>
+			<if test="meetId != null  and meetId != ''  ">meet_id,</if>
 			<if test="personRow != null  ">person_row,</if>
 			<if test="personCol != null  ">person_col,</if>
+            <if test="createBy != null  and createBy != ''  ">create_by,</if>
+            create_time
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="personId != null  and personId != ''  ">#{personId},</if>
 			<if test="personCode != null  and personCode != ''  ">#{personCode},</if>
 			<if test="personName != null  and personName != ''  ">#{personName},</if>
 			<if test="personDept != null  and personDept != ''  ">#{personDept},</if>
+			<if test="meetId != null  and meetId != ''  ">#{meetId},</if>
 			<if test="personRow != null  ">#{personRow},</if>
 			<if test="personCol != null  ">#{personCol},</if>
+            <if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+            sysdate()
          </trim>
     </insert>
 	 
@@ -62,6 +88,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="personDept != null  and personDept != ''  ">person_dept = #{personDept},</if>
             <if test="personRow != null  ">person_row = #{personRow},</if>
             <if test="personCol != null  ">person_col = #{personCol},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            update_time = sysdate()
         </trim>
         where person_id = #{personId}
     </update>

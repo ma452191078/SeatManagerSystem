@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  * @author sdl
  */
 @Component
-@ConfigurationProperties(prefix = "sdl")
+@ConfigurationProperties(prefix = "seatms")
 public class RuoYiConfig
 {
     /** 项目名称 */

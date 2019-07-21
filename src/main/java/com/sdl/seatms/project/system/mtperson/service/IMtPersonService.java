@@ -1,15 +1,15 @@
-package com.sdl.seatms.project.system.mtPerson.mapper;
+package com.sdl.seatms.project.system.mtperson.service;
 
-import com.sdl.seatms.project.system.mtPerson.domain.MtPerson;
-import java.util.List;	
+import com.sdl.seatms.project.system.mtperson.domain.MtPerson;
+import java.util.List;
 
 /**
- * 参会人员 数据层
+ * 参会人员 服务层
  * 
  * @author sdl
  * @date 2019-07-17
  */
-public interface MtPersonMapper 
+public interface IMtPersonService 
 {
 	/**
      * 查询参会人员信息
@@ -42,21 +42,31 @@ public interface MtPersonMapper
      * @return 结果
      */
 	public int updateMtPerson(MtPerson mtPerson);
-	
+		
 	/**
-     * 删除参会人员
+     * 删除参会人员信息
      * 
-     * @param personId 参会人员ID
+     * @param ids 需要删除的数据ID
      * @return 结果
      */
-	public int deleteMtPersonById(String personId);
-	
+	public int deleteMtPersonByIds(String ids);
+
 	/**
-     * 批量删除参会人员
-     * 
-     * @param personIds 需要删除的数据ID
-     * @return 结果
-     */
-	public int deleteMtPersonByIds(String[] personIds);
-	
+	 * 导入参会人员数据
+	 *
+	 * @param personList 人员列表
+	 * @param isUpdateSupport 是否更新支持，如果已存在，则进行更新数据
+	 * @param meetId 会议id
+	 * @return 结果
+	 */
+	public String importPerson(List<MtPerson> personList, Boolean isUpdateSupport, String meetId);
+
+	/**
+	 * 查询参会人数
+	 * @param meetId
+	 * @return
+	 */
+	public Integer selectPersonCount(String meetId);
+
+
 }

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+	<th:block th:include="include :: header('座次图列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+		<div class="row" th:object="${meetInfo}">
+			<div class="ibox">
+				<div class="ibox-title">
+					<h5 th:text="*{meetName}" style="margin-right: 20px;"></h5>
+				</div>
+				<div class="ibox-content">
+					<div>
+						<div class="form-group col-sm-3">
+							<label class="control-label">会议主题：
+								<span th:text="*{meetTitle}"></span>
+							</label>
+						</div>
+						<div class="form-group col-sm-3">
+							<label class="control-label">会议时间：
+								<span th:text="${#dates.format(meetInfo.meetStart,'yyyy-MM-dd')}"></span> -
+								<span th:text="${#dates.format(meetInfo.meetEnd,'yyyy-MM-dd')}"></span>
+							</label>
+						</div>
+						<div class="form-group col-sm-3">
+							<label class="control-label">会场规格：
+								<span th:text="*{meetRow}"></span>行 *
+								<span th:text="*{meetCol}"></span>列
+							</label>
+						</div>
+						<div class="form-group col-sm-3">
+							<label class="control-label">参会人数：
+								<span th:text="*{meetPersonNum}"></span>&nbsp;人
+							</label>
+						</div>
+					</div>
+				</div>
+				<div class="ibox-content">
+
+				</div>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('meeting:mtthuminfo:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('meeting:mtthuminfo:remove')}]];
+        var prefix = ctx + "meeting/mtThumInfo";
+
+    </script>
+</body>
+</html>

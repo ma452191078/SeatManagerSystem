@@ -1,4 +1,4 @@
-package com.sdl.seatms.project.system.mtMeetInfo.controller;
+package com.sdl.seatms.project.system.mtmeetinfo.controller;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.sdl.seatms.framework.aspectj.lang.annotation.Log;
 import com.sdl.seatms.framework.aspectj.lang.enums.BusinessType;
-import com.sdl.seatms.project.system.mtMeetInfo.domain.MtMeetInfo;
-import com.sdl.seatms.project.system.mtMeetInfo.service.IMtMeetInfoService;
+import com.sdl.seatms.project.system.mtmeetinfo.domain.MtMeetInfo;
+import com.sdl.seatms.project.system.mtmeetinfo.service.IMtMeetInfoService;
 import com.sdl.seatms.framework.web.controller.BaseController;
 import com.sdl.seatms.framework.web.page.TableDataInfo;
 import com.sdl.seatms.framework.web.domain.AjaxResult;

@@ -1,15 +1,15 @@
-package com.sdl.seatms.project.system.mtMeetInfo.mapper;
+package com.sdl.seatms.project.system.mtmeetinfo.service;
 
-import com.sdl.seatms.project.system.mtMeetInfo.domain.MtMeetInfo;
-import java.util.List;	
+import com.sdl.seatms.project.system.mtmeetinfo.domain.MtMeetInfo;
+import java.util.List;
 
 /**
- * 会议 数据层
+ * 会议 服务层
  * 
  * @author sdl
  * @date 2019-07-17
  */
-public interface MtMeetInfoMapper 
+public interface IMtMeetInfoService 
 {
 	/**
      * 查询会议信息
@@ -42,21 +42,13 @@ public interface MtMeetInfoMapper
      * @return 结果
      */
 	public int updateMtMeetInfo(MtMeetInfo mtMeetInfo);
-	
+		
 	/**
-     * 删除会议
+     * 删除会议信息
      * 
-     * @param meetId 会议ID
+     * @param ids 需要删除的数据ID
      * @return 结果
      */
-	public int deleteMtMeetInfoById(String meetId);
-	
-	/**
-     * 批量删除会议
-     * 
-     * @param meetIds 需要删除的数据ID
-     * @return 结果
-     */
-	public int deleteMtMeetInfoByIds(String[] meetIds);
+	public int deleteMtMeetInfoByIds(String ids);
 	
 }

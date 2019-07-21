@@ -1,6 +1,6 @@
-package com.sdl.seatms.project.system.mtThumInfo.mapper;
+package com.sdl.seatms.project.system.mtthuminfo.mapper;
 
-import com.sdl.seatms.project.system.mtThumInfo.domain.MtThumInfo;
+import com.sdl.seatms.project.system.mtthuminfo.domain.MtThumInfo;
 import java.util.List;	
 
 /**

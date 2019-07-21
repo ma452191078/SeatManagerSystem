@@ -1,11 +1,10 @@
-package com.sdl.seatms.project.system.mtThumInfo.service;
+package com.sdl.seatms.project.system.mtthuminfo.service;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.sdl.seatms.project.system.mtThumInfo.mapper.MtThumInfoMapper;
-import com.sdl.seatms.project.system.mtThumInfo.domain.MtThumInfo;
-import com.sdl.seatms.project.system.mtThumInfo.service.IMtThumInfoService;
+import com.sdl.seatms.project.system.mtthuminfo.mapper.MtThumInfoMapper;
+import com.sdl.seatms.project.system.mtthuminfo.domain.MtThumInfo;
 import com.sdl.seatms.common.utils.text.Convert;
 
 /**
