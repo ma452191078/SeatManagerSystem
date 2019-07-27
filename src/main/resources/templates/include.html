@@ -173,3 +173,17 @@
 	<script th:src="@{/ajax/libs/bootstrap-table/extensions/reorder/bootstrap-table-reorder.js}"></script>
 	<script th:src="@{/ajax/libs/bootstrap-table/extensions/reorder/jquery.tablednd.js}"></script>
 </div>
+
+<!-- 颜色选择器 -->
+<div th:fragment="bootstrap-colorpicker-css">
+	<link th:href="@{/ajax/libs/bootstrap-colorpicker/css/bootstrap-colorpicker.css}" rel="stylesheet"/>
+</div>
+<div th:fragment="bootstrap-colorpicker-js">
+	<script th:src="@{/ajax/libs/bootstrap-colorpicker/js/bootstrap-colorpicker.js}"></script>
+</div>
+<div th:fragment="vue-js">
+	<!-- 开发环境版本，包含了有帮助的命令行警告 -->
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<!-- 生产环境版本，优化了尺寸和速度 -->
+	<!--<script src="https://cdn.jsdelivr.net/npm/vue"></script>-->
+</div>

@@ -113,7 +113,8 @@ public class MtMeetInfoController extends BaseController
 	@PostMapping("/edit")
 	@ResponseBody
 	public AjaxResult editSave(MtMeetInfo mtMeetInfo)
-	{		
+	{
+		mtMeetInfo.setUpdateBy(ShiroUtils.getSysUser().getUserName());
 		return toAjax(mtMeetInfoService.updateMtMeetInfo(mtMeetInfo));
 	}
 	

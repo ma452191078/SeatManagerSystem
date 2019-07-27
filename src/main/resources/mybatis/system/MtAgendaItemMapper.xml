@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sdl.seatms.project.system.mtagendaitem.mapper.MtAgendaItemMapper">
+    
+    <resultMap type="MtAgendaItem" id="MtAgendaItemResult">
+        <result property="itemId"    column="item_id"    />
+        <result property="agendaId"    column="agenda_id"    />
+        <result property="itemStart"    column="item_start"    />
+        <result property="itemEnd"    column="item_end"    />
+        <result property="itemCompere"    column="item_compere"    />
+        <result property="itemContent"    column="item_content"    />
+    </resultMap>
+	
+	<sql id="selectMtAgendaItemVo">
+        select item_id, agenda_id, item_start, item_end, item_compere, item_content from mt_agenda_item
+    </sql>
+	
+    <select id="selectMtAgendaItemList" parameterType="MtAgendaItem" resultMap="MtAgendaItemResult">
+        <include refid="selectMtAgendaItemVo"/>
+        <where>  
+            <if test="itemId != null  and itemId != '' "> and item_id = #{itemId}</if>
+             <if test="agendaId != null  and agendaId != '' "> and agenda_id = #{agendaId}</if>
+             <if test="itemStart != null "> and item_start = #{itemStart}</if>
+             <if test="itemEnd != null "> and item_end = #{itemEnd}</if>
+             <if test="itemCompere != null  and itemCompere != '' "> and item_compere = #{itemCompere}</if>
+             <if test="itemContent != null  and itemContent != '' "> and item_content = #{itemContent}</if>
+         </where>
+    </select>
+    
+    <select id="selectMtAgendaItemById" parameterType="String" resultMap="MtAgendaItemResult">
+        <include refid="selectMtAgendaItemVo"/>
+        where item_id = #{itemId}
+    </select>
+        
+    <insert id="insertMtAgendaItem" parameterType="MtAgendaItem">
+        insert into mt_agenda_item
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="itemId != null  and itemId != ''  ">item_id,</if>
+			<if test="agendaId != null  and agendaId != ''  ">agenda_id,</if>
+			<if test="itemStart != null  ">item_start,</if>
+			<if test="itemEnd != null  ">item_end,</if>
+			<if test="itemCompere != null  and itemCompere != ''  ">item_compere,</if>
+			<if test="itemContent != null  and itemContent != ''  ">item_content,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="itemId != null  and itemId != ''  ">#{itemId},</if>
+			<if test="agendaId != null  and agendaId != ''  ">#{agendaId},</if>
+			<if test="itemStart != null  ">#{itemStart},</if>
+			<if test="itemEnd != null  ">#{itemEnd},</if>
+			<if test="itemCompere != null  and itemCompere != ''  ">#{itemCompere},</if>
+			<if test="itemContent != null  and itemContent != ''  ">#{itemContent},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateMtAgendaItem" parameterType="MtAgendaItem">
+        update mt_agenda_item
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="agendaId != null  and agendaId != ''  ">agenda_id = #{agendaId},</if>
+            <if test="itemStart != null  ">item_start = #{itemStart},</if>
+            <if test="itemEnd != null  ">item_end = #{itemEnd},</if>
+            <if test="itemCompere != null  and itemCompere != ''  ">item_compere = #{itemCompere},</if>
+            <if test="itemContent != null  and itemContent != ''  ">item_content = #{itemContent},</if>
+        </trim>
+        where item_id = #{itemId}
+    </update>
+
+	<delete id="deleteMtAgendaItemById" parameterType="String">
+        delete from mt_agenda_item where item_id = #{itemId}
+    </delete>
+	
+    <delete id="deleteMtAgendaItemByIds" parameterType="String">
+        delete from mt_agenda_item where item_id in 
+        <foreach item="itemId" collection="array" open="(" separator="," close=")">
+            #{itemId}
+        </foreach>
+    </delete>
+    
+</mapper>

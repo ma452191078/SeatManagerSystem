@@ -1,5 +1,6 @@
 package com.sdl.seatms.project.system.mtthuminfo.mapper;
 
+import com.sdl.seatms.project.system.mtmeetinfo.domain.MtMeetInfo;
 import com.sdl.seatms.project.system.mtthuminfo.domain.MtThumInfo;
 import java.util.List;	
 
@@ -26,6 +27,8 @@ public interface MtThumInfoMapper
      * @return 座次图集合
      */
 	public List<MtThumInfo> selectMtThumInfoList(MtThumInfo mtThumInfo);
+
+	public List<MtThumInfo> selectMtThumInfoListByMeetId(String meetId);
 	
 	/**
      * 新增座次图
@@ -58,5 +61,7 @@ public interface MtThumInfoMapper
      * @return 结果
      */
 	public int deleteMtThumInfoByIds(String[] thumIds);
+
+	int deleteMtThumInfoByInfo(MtThumInfo mtThumInfo);
 	
 }

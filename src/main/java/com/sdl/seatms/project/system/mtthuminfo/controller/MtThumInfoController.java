@@ -1,5 +1,6 @@
 package com.sdl.seatms.project.system.mtthuminfo.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.sdl.seatms.project.system.mtmeetinfo.domain.MtMeetInfo;
@@ -41,27 +42,35 @@ public class MtThumInfoController extends BaseController
 	@Autowired
 	private IMtMeetInfoService mtMeetInfoService;
 	
-	@RequiresPermissions("meeting:mtthuminfo:view")
+	// @RequiresPermissions("meeting:mtthuminfo:view")
 	@GetMapping()
 	public String mtThumInfo()
 	{
 	    return prefix + "/mtThumInfo";
 	}
 
-	@RequiresPermissions("meeting:mtthuminfo:view")
+	// @RequiresPermissions("meeting:mtthuminfo:view")
 	@GetMapping("/listForMeet/{meetId}")
 	public String mtThumInfo(@PathVariable("meetId") String meetId, ModelMap mmap)
 	{
 		MtMeetInfo meetInfo = mtMeetInfoService.selectMtMeetInfoById(meetId);
+		HashMap<Integer, List<MtThumInfo>> thumList = new HashMap<Integer, List<MtThumInfo>>();
+		MtThumInfo query = new MtThumInfo();
+		query.setMeetId(meetId);
+		for (int i=1; i<=meetInfo.getMeetRow(); i++){
+			query.setThumRow(i);
+			thumList.put(i,mtThumInfoService.selectMtThumInfoList(query));
+		}
 		mmap.put("meetId", meetId);
 		mmap.put("meetInfo", meetInfo);
+		mmap.put("thumList", thumList);
 		return prefix + "/mtThumInfoForMeet";
 	}
 
 	/**
 	 * 查询座次图列表
 	 */
-	@RequiresPermissions("meeting:mtthuminfo:list")
+	// @RequiresPermissions("meeting:mtthuminfo:list")
 	@PostMapping("/list")
 	@ResponseBody
 	public TableDataInfo list(MtThumInfo mtThumInfo)
@@ -75,14 +84,14 @@ public class MtThumInfoController extends BaseController
 	/**
 	 * 导出座次图列表
 	 */
-	@RequiresPermissions("meeting:mtthuminfo:export")
+	// @RequiresPermissions("meeting:mtthuminfo:export")
     @PostMapping("/export")
     @ResponseBody
     public AjaxResult export(MtThumInfo mtThumInfo)
     {
     	List<MtThumInfo> list = mtThumInfoService.selectMtThumInfoList(mtThumInfo);
         ExcelUtil<MtThumInfo> util = new ExcelUtil<MtThumInfo>(MtThumInfo.class);
-        return util.exportExcel(list, "mtthuminfo");
+        return util.exportExcel(list, "mtThumInfo");
     }
 	
 	/**
@@ -97,7 +106,7 @@ public class MtThumInfoController extends BaseController
 	/**
 	 * 新增保存座次图
 	 */
-	@RequiresPermissions("meeting:mtthuminfo:add")
+	// @RequiresPermissions("meeting:mtthuminfo:add")
 	@Log(title = "座次图", businessType = BusinessType.INSERT)
 	@PostMapping("/add")
 	@ResponseBody
@@ -113,14 +122,16 @@ public class MtThumInfoController extends BaseController
 	public String edit(@PathVariable("thumId") String thumId, ModelMap mmap)
 	{
 		MtThumInfo mtThumInfo = mtThumInfoService.selectMtThumInfoById(thumId);
-		mmap.put("mtthuminfo", mtThumInfo);
+		MtMeetInfo mtMeetInfo = mtMeetInfoService.selectMtMeetInfoById(mtThumInfo.getMeetId());
+		mmap.put("mtThumInfo", mtThumInfo);
+		mmap.put("mtMeetInfo", mtMeetInfo);
 	    return prefix + "/edit";
 	}
 	
 	/**
 	 * 修改保存座次图
 	 */
-	@RequiresPermissions("meeting:mtthuminfo:edit")
+	// @RequiresPermissions("meeting:mtthuminfo:edit")
 	@Log(title = "座次图", businessType = BusinessType.UPDATE)
 	@PostMapping("/edit")
 	@ResponseBody
@@ -132,7 +143,7 @@ public class MtThumInfoController extends BaseController
 	/**
 	 * 删除座次图
 	 */
-	@RequiresPermissions("meeting:mtthuminfo:remove")
+	// @RequiresPermissions("meeting:mtthuminfo:remove")
 	@Log(title = "座次图", businessType = BusinessType.DELETE)
 	@PostMapping( "/remove")
 	@ResponseBody

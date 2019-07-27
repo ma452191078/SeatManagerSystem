@@ -21,10 +21,20 @@ public class MtThumInfo extends BaseEntity
 	private String meetId;
 	/** 区域 */
 	private String areaId;
-	/** 行数 */
+	/** 行坐标 */
 	private Integer thumRow;
-	/** 列数 */
+	/** 列坐标 */
 	private Integer thumCol;
+
+	/** 行数 */
+	private Integer rowNum;
+	/** 列数 */
+	private Integer colNum;
+
+	/** 背景色 */
+	private String thumColor;
+
+
 
 
 }

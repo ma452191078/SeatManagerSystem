@@ -10,14 +10,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="areaId"    column="area_id"    />
         <result property="thumRow"    column="thum_row"    />
         <result property="thumCol"    column="thum_col"    />
+        <result property="thumColor"    column="thum_color"    />
         <result property="createBy"    column="create_by"    />
         <result property="createTime"    column="create_time"    />
         <result property="updateBy"    column="update_by"    />
         <result property="updateTime"    column="update_time"    />
+        <result property="rowNum"    column="row_num"    />
+        <result property="colNum"    column="col_num"    />
     </resultMap>
 	
 	<sql id="selectMtThumInfoVo">
-        select thum_id, meet_id, area_id, thum_row, thum_col, create_by, create_time, update_by, update_time from mt_thum_info
+        select thum_id, meet_id, area_id, thum_row, thum_col, thum_color,row_num,col_num, create_by, create_time, update_by, update_time from mt_thum_info
     </sql>
 	
     <select id="selectMtThumInfoList" parameterType="MtThumInfo" resultMap="MtThumInfoResult">
@@ -33,6 +36,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
              <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
              <if test="updateTime != null "> and update_time = #{updateTime}</if>
          </where>
+        order by create_time desc, thum_row, thum_col
+    </select>
+
+    <select id="selectMtThumInfoListByMeetId" parameterType="MtThumInfo" resultMap="MtThumInfoResult">
+        <include refid="selectMtThumInfoVo"/>
+        where meet_id = #{meetId}
+        order by create_time desc
     </select>
     
     <select id="selectMtThumInfoById" parameterType="String" resultMap="MtThumInfoResult">
@@ -46,8 +56,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="thumId != null  and thumId != ''  ">thum_id,</if>
 			<if test="meetId != null  and meetId != ''  ">meet_id,</if>
 			<if test="areaId != null  and areaId != ''  ">area_id,</if>
+			<if test="thumColor != null  and thumColor != ''  ">thum_color,</if>
 			<if test="thumRow != null  ">thum_row,</if>
 			<if test="thumCol != null  ">thum_col,</if>
+			<if test="rowNum != null  ">row_num,</if>
+			<if test="colNum != null  ">col_num,</if>
 			<if test="createBy != null  and createBy != ''  ">create_by,</if>
 			create_time
          </trim>
@@ -55,8 +68,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="thumId != null  and thumId != ''  ">#{thumId},</if>
 			<if test="meetId != null  and meetId != ''  ">#{meetId},</if>
 			<if test="areaId != null  and areaId != ''  ">#{areaId},</if>
+			<if test="thumColor != null  and thumColor != ''  ">#{thumColor},</if>
 			<if test="thumRow != null  ">#{thumRow},</if>
 			<if test="thumCol != null  ">#{thumCol},</if>
+			<if test="rowNum != null  ">#{rowNum},</if>
+			<if test="colNum != null  ">#{colNum},</if>
 			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
 			sysdate()
          </trim>
@@ -67,8 +83,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="SET" suffixOverrides=",">
             <if test="meetId != null  and meetId != ''  ">meet_id = #{meetId},</if>
             <if test="areaId != null  and areaId != ''  ">area_id = #{areaId},</if>
+            <if test="thumColor != null  and thumColor != ''  ">thum_color = #{thumColor},</if>
             <if test="thumRow != null  ">thum_row = #{thumRow},</if>
             <if test="thumCol != null  ">thum_col = #{thumCol},</if>
+            <if test="rowNum != null  ">row_num = #{rowNum},</if>
+            <if test="colNum != null  ">col_num = #{colNum},</if>
             <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
             update_time = sysdate()
         </trim>
@@ -77,6 +96,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<delete id="deleteMtThumInfoById" parameterType="String">
         delete from mt_thum_info where thum_id = #{thumId}
+    </delete>
+	<delete id="deleteMtThumInfoByInfo" parameterType="MtThumInfo">
+        delete from mt_thum_info
+        <where>
+            <if test="meetId != null or meetId != '' ">
+                and meet_id = #{meetId}
+            </if>
+            <if test="thumRow != null  ">
+                and thum_row = #{thumRow}
+            </if>
+            <if test="thumRow != null  ">
+                and thum_col = #{thumCol}
+            </if>
+        </where>
     </delete>
 	
     <delete id="deleteMtThumInfoByIds" parameterType="String">

@@ -9,6 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="personCode"    column="person_code"    />
         <result property="personName"    column="person_name"    />
         <result property="personDept"    column="person_dept"    />
+        <result property="personArea"    column="person_area"    />
         <result property="personRow"    column="person_row"    />
         <result property="personCol"    column="person_col"    />
         <result property="meetId"    column="meet_id"    />
@@ -19,7 +20,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 	
 	<sql id="selectMtPersonVo">
-        select person_id, person_code, person_name, person_dept, person_row, person_col,
+        select person_id, person_code, person_name, person_dept,person_area, person_row, person_col,
          create_by, create_time, update_by, update_time from mt_person
     </sql>
 	
@@ -30,10 +31,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
              <if test="personCode != null  and personCode != '' "> and person_code = #{personCode}</if>
              <if test="personName != null  and personName != '' "> and person_name = #{personName}</if>
              <if test="personDept != null  and personDept != '' "> and person_dept = #{personDept}</if>
+             <if test="personArea != null  and personArea != '' "> and person_area = #{personArea}</if>
              <if test="personRow != null "> and person_row = #{personRow}</if>
              <if test="personCol != null "> and person_col = #{personCol}</if>
              <if test="meetId != null and meetId != '' "> and meet_id = #{meetId}</if>
          </where>
+        order by create_time desc
     </select>
     
     <select id="selectMtPersonById" parameterType="String" resultMap="MtPersonResult">
@@ -61,6 +64,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="personCode != null  and personCode != ''  ">person_code,</if>
 			<if test="personName != null  and personName != ''  ">person_name,</if>
 			<if test="personDept != null  and personDept != ''  ">person_dept,</if>
+			<if test="personArea != null  and personArea != ''  ">person_area,</if>
 			<if test="meetId != null  and meetId != ''  ">meet_id,</if>
 			<if test="personRow != null  ">person_row,</if>
 			<if test="personCol != null  ">person_col,</if>
@@ -72,6 +76,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="personCode != null  and personCode != ''  ">#{personCode},</if>
 			<if test="personName != null  and personName != ''  ">#{personName},</if>
 			<if test="personDept != null  and personDept != ''  ">#{personDept},</if>
+			<if test="personArea != null  and personArea != ''  ">#{personArea},</if>
 			<if test="meetId != null  and meetId != ''  ">#{meetId},</if>
 			<if test="personRow != null  ">#{personRow},</if>
 			<if test="personCol != null  ">#{personCol},</if>
@@ -86,6 +91,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="personCode != null  and personCode != ''  ">person_code = #{personCode},</if>
             <if test="personName != null  and personName != ''  ">person_name = #{personName},</if>
             <if test="personDept != null  and personDept != ''  ">person_dept = #{personDept},</if>
+            <if test="personArea != null  and personArea != ''  ">person_area = #{personArea},</if>
             <if test="personRow != null  ">person_row = #{personRow},</if>
             <if test="personCol != null  ">person_col = #{personCol},</if>
             <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>

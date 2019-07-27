@@ -3,9 +3,11 @@ package com.sdl.seatms.project.system.mtmeetinfo.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sdl.seatms.framework.web.domain.BaseEntity;
+import com.sdl.seatms.project.system.mtthuminfo.domain.MtThumInfo;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 会议表 mt_meet_info
@@ -38,5 +40,7 @@ public class MtMeetInfo extends BaseEntity
 	private int meetCol;
 	/** 参会人数 */
 	private Integer meetPersonNum;
+	/** 座次图 */
+	private List<MtThumInfo> thumInfoList;
 
 }

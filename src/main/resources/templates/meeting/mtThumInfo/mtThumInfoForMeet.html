@@ -37,6 +37,15 @@
 					</div>
 				</div>
 				<div class="ibox-content">
+					<div class="row">
+						<div class="meet-thum-platform">主席台</div>
+					</div>
+
+					<div class="row meet-thum-row" th:each="rowIndex:${#numbers.sequence(1,meetInfo.meetRow)}">
+						<div class="meet-thum-item" th:each="thum:${thumList.get(rowIndex)} " th:text="${thum.areaId}" th:onclick="goEdit([[${thum.thumId}]])"
+							th:style="'background:'+${thum.thumColor}">
+						</div>
+					</div>
 
 				</div>
 			</div>
@@ -48,6 +57,10 @@
         var removeFlag = [[${@permission.hasPermi('meeting:mtthuminfo:remove')}]];
         var prefix = ctx + "meeting/mtThumInfo";
 
+        function goEdit(id) {
+            var url = prefix + "/edit/" + id;
+            $.modal.open("修改区域信息", url, 1000);
+        }
     </script>
 </body>
 </html>

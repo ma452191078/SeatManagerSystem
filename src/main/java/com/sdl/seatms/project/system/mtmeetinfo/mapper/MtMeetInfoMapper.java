@@ -26,7 +26,7 @@ public interface MtMeetInfoMapper
      * @return 会议集合
      */
 	public List<MtMeetInfo> selectMtMeetInfoList(MtMeetInfo mtMeetInfo);
-	
+
 	/**
      * 新增会议
      * 

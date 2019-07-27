@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sdl.seatms.project.system.mtagendatitle.mapper.MtAgendaTitleMapper">
+    
+    <resultMap type="MtAgendaTitle" id="MtAgendaTitleResult">
+        <result property="agendaId"    column="agenda_id"    />
+        <result property="agendaDate"    column="agenda_date"    />
+        <result property="meetId"    column="meet_id"    />
+    </resultMap>
+	
+	<sql id="selectMtAgendaTitleVo">
+        select agenda_id, agenda_date, meet_id from mt_agenda_title
+    </sql>
+	
+    <select id="selectMtAgendaTitleList" parameterType="MtAgendaTitle" resultMap="MtAgendaTitleResult">
+        <include refid="selectMtAgendaTitleVo"/>
+        <where>  
+            <if test="agendaId != null  and agendaId != '' "> and agenda_id = #{agendaId}</if>
+            <if test="meetId != null  and meetId != '' "> and meet_id = #{meetId}</if>
+            <if test="agendaDate != null "> and agenda_date = #{agendaDate}</if>
+         </where>
+    </select>
+    
+    <select id="selectMtAgendaTitleById" parameterType="String" resultMap="MtAgendaTitleResult">
+        <include refid="selectMtAgendaTitleVo"/>
+        where agenda_id = #{agendaId}
+    </select>
+        
+    <insert id="insertMtAgendaTitle" parameterType="MtAgendaTitle">
+        insert into mt_agenda_title
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="agendaId != null  and agendaId != ''  ">agenda_id,</if>
+			<if test="meetId != null  and meetId != ''  ">meet_id,</if>
+			<if test="agendaDate != null  ">agenda_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="agendaId != null  and agendaId != ''  ">#{agendaId},</if>
+			<if test="meetId != null  and meetId != ''  ">#{meetId},</if>
+			<if test="agendaDate != null  ">#{agendaDate},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateMtAgendaTitle" parameterType="MtAgendaTitle">
+        update mt_agenda_title
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="meetId != null and meetId != '' ">meet_id = #{meetId},</if>
+            <if test="agendaDate != null  ">agenda_date = #{agendaDate},</if>
+        </trim>
+        where agenda_id = #{agendaId}
+    </update>
+
+	<delete id="deleteMtAgendaTitleById" parameterType="String">
+        delete from mt_agenda_title where agenda_id = #{agendaId}
+    </delete>
+	
+    <delete id="deleteMtAgendaTitleByIds" parameterType="String">
+        delete from mt_agenda_title where agenda_id in 
+        <foreach item="agendaId" collection="array" open="(" separator="," close=")">
+            #{agendaId}
+        </foreach>
+    </delete>
+    
+</mapper>
