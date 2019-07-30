@@ -1,6 +1,8 @@
 package com.sdl.seatms.project.system.mtagendaitem.controller;
 
 import java.util.List;
+import java.util.UUID;
+
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -71,10 +73,11 @@ public class MtAgendaItemController extends BaseController
 	/**
 	 * 新增会议日程明细
 	 */
-	@GetMapping("/add")
-	public String add()
+	@GetMapping("/add/{agendId}")
+	public String add(@PathVariable("agendId") String agendId, ModelMap mmap)
 	{
-	    return prefix + "/add";
+	    mmap.put("agendId", agendId);
+		return prefix + "/add";
 	}
 	
 	/**
@@ -85,7 +88,8 @@ public class MtAgendaItemController extends BaseController
 	@PostMapping("/add")
 	@ResponseBody
 	public AjaxResult addSave(MtAgendaItem mtAgendaItem)
-	{		
+	{
+		mtAgendaItem.setItemId(UUID.randomUUID().toString());
 		return toAjax(mtAgendaItemService.insertMtAgendaItem(mtAgendaItem));
 	}
 

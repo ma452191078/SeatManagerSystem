@@ -28,6 +28,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
              <if test="itemContent != null  and itemContent != '' "> and item_content = #{itemContent}</if>
          </where>
     </select>
+    <select id="selectMtAgendaItemListByAgendaId" parameterType="String" resultMap="MtAgendaItemResult">
+        <include refid="selectMtAgendaItemVo"/>
+        where agenda_id = #{agendaId}
+        order by item_start
+    </select>
     
     <select id="selectMtAgendaItemById" parameterType="String" resultMap="MtAgendaItemResult">
         <include refid="selectMtAgendaItemVo"/>

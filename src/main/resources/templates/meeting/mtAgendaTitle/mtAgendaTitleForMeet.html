@@ -6,40 +6,100 @@
 <body class="gray-bg">
      <div class="container-div">
 		<div class="row">
-            <div class="col-sm-4" th:each="title:${agendaList}">
+            <div class="col-sm-6" th:each="agenda, agendaStat:${agendaList}">
                 <div class="ibox">
                     <div class="ibox-title">
-                        <span class="label label-primary pull-right">修改</span>
-                        <span class="label label-danger pull-right">删除</span>
-                        <h5 th:text="${title.agendaDate}">IT-01 - 设计部</h5>
+                        <div class="pull-right">
+                            <button type="button" class="btn btn-primary btn-xs" th:onclick="goEdit([[${agenda.agendaId}]]);">修改</button>
+                            &nbsp;
+                            <button type="button" class="btn btn-danger btn-xs" th:onclick="goDelete([[${agenda.agendaId}]]);">删除</button>
+                        </div>
+                        <h5 th:text="${#dates.format(agenda.agendaDate,'yyyy-MM-dd')}"></h5>
                     </div>
                     <div class="ibox-content">
-
+                        <div class="row" style="margin: 5px 0 5px 0;" th:each="item:${agenda.itemList}">
+                            <div class="col-sm-3" th:text="${item.itemStart} + ' - ' + ${item.itemEnd}"></div>
+                            <div class="col-sm-2" th:text="${item.itemCompere}"></div>
+                            <div class="col-sm-5" th:text="${item.itemContent}"></div>
+                            <div class="col-sm-2">
+                                <button type="button" class="btn btn-primary btn-xs" th:onclick="goEditItem([[${item.itemId}]]);"><i class="fa fa-edit"></i></button>
+                                &nbsp;
+                                <button type="button" class="btn btn-danger btn-xs" th:onclick="goDeleteItem([[${item.itemId}]]);"><i class="fa fa-remove"></i></button>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-info btn-block" style="margin-top: 10px;" th:onclick="goAddItem([[${agenda.agendaId}]]);">添加日程</button>
                     </div>
                 </div>
+                <div th:if="${agendaStat.index == 3}" class="clearfix"></div>
             </div>
             <div class="col-sm-4" style="height: 200px;line-height: 200px;">
-                <button type="button" class="btn btn-outline btn-primary" style="width: 100%;height: 100%;font-size: 50px;">+</button>
+                <button type="button" class="btn btn-outline btn-primary" style="width: 100%;height: 100%;font-size: 50px;" th:onclick="goAdd([[${meetId}]]);">+</button>
             </div>
 		</div>
 	</div>
     <div th:include="include :: footer"></div>
     <script th:inline="javascript">
         var prefix = ctx + "meeting/mtAgendaTitle";
-
-        $(function() {
-
-        });
+        var itemPrefix = ctx + "meeting/mtAgendaItem";
 
         function goAdd(meetId) {
             var url = prefix + "/add/" + meetId;
-            $.modal.open("添加日程", url, 1000);
+            $.modal.open("添加日程", url);
         }
 
         function goEdit(id) {
             var url = prefix + "/edit/" + id;
-            $.modal.open("修改日程", url, 1000);
+            $.modal.open("修改日程", url);
         }
+
+        function goDelete(id) {
+            $.modal.confirm("确定删除此日程吗？", function () {
+                var url = prefix + "/remove";
+                var data = { "ids": id };
+                ajaxResult(url, data);
+            });
+
+        }
+
+        function goAddItem(agendaId) {
+            var url = itemPrefix + "/add/" + agendaId;
+            $.modal.open("添加日程明细", url);
+        }
+
+        function goEditItem(id) {
+            var url = itemPrefix + "/edit/" + id;
+            $.modal.open("修改日程明细", url);
+        }
+
+        function goDeleteItem(id) {
+            $.modal.confirm("确定删除此日程吗？", function () {
+                var url = itemPrefix + "/remove";
+                var data = { "ids": id };
+                ajaxResult(url, data);
+            });
+
+        }
+
+        function ajaxResult(url, data) {
+            var config = {
+                url: url,
+                type: "post",
+                dataType: "json",
+                data: data,
+                beforeSend: function () {
+                    $.modal.loading("正在处理中，请稍后...");
+                },
+                success: function(result) {
+                    if (result.code == web_status.SUCCESS) {
+                        window.location.reload();
+                        $.modal.closeLoading();
+                    }
+                }
+            };
+            $.ajax(config);
+
+        }
+
     </script>
 </body>
 </html>

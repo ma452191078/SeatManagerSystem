@@ -26,6 +26,8 @@ public interface MtAgendaItemMapper
      * @return 会议日程明细集合
      */
 	public List<MtAgendaItem> selectMtAgendaItemList(MtAgendaItem mtAgendaItem);
+
+	List<MtAgendaItem> selectMtAgendaItemListByAgendaId(String agendaId);
 	
 	/**
      * 新增会议日程明细

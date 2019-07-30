@@ -8,27 +8,27 @@
         <form class="form-horizontal m" id="form-mtAgendaItem-edit" th:object="${mtAgendaItem}">
             <input id="itemId" name="itemId" th:field="*{itemId}"  type="hidden">
 			<div class="form-group">	
-				<label class="col-sm-3 control-label">日程id：</label>
-				<div class="col-sm-8">
-					<input id="agendaId" name="agendaId" th:field="*{agendaId}" class="form-control" type="text">
-				</div>
-			</div>
-			<div class="form-group">	
 				<label class="col-sm-3 control-label">开始时间：</label>
 				<div class="col-sm-8">
-					<input id="itemStart" name="itemStart" th:field="*{itemStart}" class="form-control" type="text">
+					<div class="input-group date">
+						<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+						<input id="itemStart" name="itemStart" class="form-control" type="text" readonly>
+					</div>
 				</div>
 			</div>
 			<div class="form-group">	
 				<label class="col-sm-3 control-label">结束时间：</label>
 				<div class="col-sm-8">
-					<input id="itemEnd" name="itemEnd" th:field="*{itemEnd}" class="form-control" type="text">
+					<div class="input-group date">
+						<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+						<input id="itemEnd" name="itemEnd" class="form-control" type="text" readonly>
+					</div>
 				</div>
 			</div>
 			<div class="form-group">	
 				<label class="col-sm-3 control-label">主持人：</label>
 				<div class="col-sm-8">
-					<input id="item compere" name="item compere" th:field="*{item compere}" class="form-control" type="text">
+					<input id="itemCompere" name="itemCompere" th:field="*{itemCompere}" class="form-control" type="text">
 				</div>
 			</div>
 			<div class="form-group">	
@@ -41,12 +41,48 @@
     </div>
     <div th:include="include::footer"></div>
     <script type="text/javascript">
-		var prefix = ctx + "system/mtAgendaItem";
+		var prefix = ctx + "meeting/mtAgendaItem";
+        $(function() {
+            dateTimeInit();
+        });
+
+        function dateTimeInit() {
+            layui.use('laydate', function(){
+                var laydate = layui.laydate;
+
+                var itemStart = laydate.render({
+                    elem: '#itemStart',
+                    theme: 'molv',
+                    trigger: 'click',
+                    type: 'time',
+                    format: 'HH:mm',
+                    value: "[[${#dates.format(mtAgendaItem.itemStart,'yyyy-MM-dd')}]]",
+                });
+                var itemEnd = laydate.render({
+                    elem: '#itemEnd',
+                    theme: 'molv',
+                    trigger: 'click',
+                    type: 'time',
+                    format: 'HH:mm',
+                    value: "[[${#dates.format(mtAgendaItem.itemEnd,'yyyy-MM-dd')}]]",
+                });
+            });
+        }
+
 		$("#form-mtAgendaItem-edit").validate({
 			rules:{
-				xxxx:{
-					required:true,
-				},
+                itemStart:{
+                    required:true,
+                },
+                itemEnd:{
+                    required:true,
+                },
+                itemCompere:{
+                    required:true,
+                },
+                itemContent:{
+                    required:true,
+                },
 			},
 			focusCleanup: true
 		});

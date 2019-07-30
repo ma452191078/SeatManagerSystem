@@ -1,7 +1,9 @@
 package com.sdl.seatms.project.system.mtagendatitle.controller;
 
 import java.util.List;
+import java.util.UUID;
 
+import com.sdl.seatms.common.utils.security.ShiroUtils;
 import com.sdl.seatms.project.system.mtmeetinfo.domain.MtMeetInfo;
 import com.sdl.seatms.project.system.mtmeetinfo.service.IMtMeetInfoService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -107,7 +109,10 @@ public class MtAgendaTitleController extends BaseController
 	@PostMapping("/add")
 	@ResponseBody
 	public AjaxResult addSave(MtAgendaTitle mtAgendaTitle)
-	{		
+	{
+		mtAgendaTitle.setAgendaId(UUID.randomUUID().toString());
+		mtAgendaTitle.setCreateBy(ShiroUtils.getSysUser().getUserName());
+
 		return toAjax(mtAgendaTitleService.insertMtAgendaTitle(mtAgendaTitle));
 	}
 
@@ -131,7 +136,8 @@ public class MtAgendaTitleController extends BaseController
 	@PostMapping("/edit")
 	@ResponseBody
 	public AjaxResult editSave(MtAgendaTitle mtAgendaTitle)
-	{		
+	{
+		mtAgendaTitle.setUpdateBy(ShiroUtils.getSysUser().getUserName());
 		return toAjax(mtAgendaTitleService.updateMtAgendaTitle(mtAgendaTitle));
 	}
 	

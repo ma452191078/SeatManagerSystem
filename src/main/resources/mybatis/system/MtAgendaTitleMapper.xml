@@ -8,6 +8,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="agendaId"    column="agenda_id"    />
         <result property="agendaDate"    column="agenda_date"    />
         <result property="meetId"    column="meet_id"    />
+        <collection property="itemList" column="agenda_id"
+                    select="com.sdl.seatms.project.system.mtagendaitem.mapper.MtAgendaItemMapper.selectMtAgendaItemListByAgendaId" />
     </resultMap>
 	
 	<sql id="selectMtAgendaTitleVo">
@@ -21,11 +23,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="meetId != null  and meetId != '' "> and meet_id = #{meetId}</if>
             <if test="agendaDate != null "> and agenda_date = #{agendaDate}</if>
          </where>
+        order by agenda_date
     </select>
     
     <select id="selectMtAgendaTitleById" parameterType="String" resultMap="MtAgendaTitleResult">
         <include refid="selectMtAgendaTitleVo"/>
         where agenda_id = #{agendaId}
+        order by agenda_date
     </select>
         
     <insert id="insertMtAgendaTitle" parameterType="MtAgendaTitle">

@@ -1,9 +1,11 @@
 package com.sdl.seatms.project.system.mtagendaitem.domain;
 
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.sdl.seatms.framework.web.domain.BaseEntity;
 import lombok.Data;
 
+import java.sql.Time;
 import java.util.Date;
 
 /**
@@ -22,9 +24,9 @@ public class MtAgendaItem extends BaseEntity
 	/** 日程id */
 	private String agendaId;
 	/** 开始时间 */
-	private Date itemStart;
+	private String itemStart;
 	/** 结束时间 */
-	private Date itemEnd;
+	private String itemEnd;
 	/** 主持人 */
 	private String itemCompere;
 	/** 内容 */
