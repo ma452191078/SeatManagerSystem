@@ -253,4 +253,15 @@ public class UserController extends BaseController
     {
         return toAjax(userService.changeStatus(user));
     }
+
+    /**
+     * 同步人员
+     */
+    @RequiresPermissions("system:dept:syncUser")
+    @PostMapping("/syncUser")
+    @ResponseBody
+    public AjaxResult syncUser()
+    {
+        return toAjax(userService.syncUser());
+    }
 }

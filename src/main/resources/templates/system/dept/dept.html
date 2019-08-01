@@ -38,6 +38,9 @@
                 <a class="btn btn-info" id="expandAllBtn">
                     <i class="fa fa-exchange"></i> 展开/折叠
                 </a>
+                <a class="btn btn-info" onclick="syncDept();">
+                    <i class="fa fa-exchange"></i> 同步部门
+                </a>
 	        </div>
        		 <div class="col-sm-12 select-table table-striped">
 	            <table id="bootstrap-tree-table"></table>
@@ -50,7 +53,7 @@
 		var editFlag = [[${@permission.hasPermi('system:dept:edit')}]];
 		var removeFlag = [[${@permission.hasPermi('system:dept:remove')}]];
 		var datas = [[${@dict.getType('sys_normal_disable')}]];
-		var prefix = ctx + "system/dept"
+		var prefix = ctx + "system/dept";
 
 		$(function() {
 		    var options = {
@@ -107,6 +110,13 @@
 		    };
 		    $.treeTable.init(options);
 		});
+
+		function syncDept() {
+            $.modal.confirm("确认同步部门吗？", function() {
+                var url = prefix + "/syncDept";
+                $.operate.submit(url, "post", "json");
+            });
+        }
 	</script>
 </body>
 </html>

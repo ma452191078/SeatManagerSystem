@@ -3,7 +3,16 @@ package com.sdl.seatms.project.system.dept.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.sdl.seatms.project.system.dept.domain.Dept;
+import com.sdl.seatms.project.system.webservice.domain.DeptResult;
+import com.sdl.seatms.project.system.webservice.domain.WebServiceDept;
+import com.sdl.seatms.project.system.webservice.domain.WebServiceResult;
+import com.sdl.seatms.project.webservice.DeptPersonTransferService;
+import com.sdl.seatms.project.webservice.DeptPersonTransferServicePortType;
+import com.sdl.seatms.project.webservice.GetDeptListResponse;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +31,7 @@ import com.sdl.seatms.project.system.role.domain.Role;
  * @author sdl
  */
 @Service
+@Log4j2
 public class DeptServiceImpl implements IDeptService
 {
     @Autowired
@@ -290,5 +300,35 @@ public class DeptServiceImpl implements IDeptService
             return UserConstants.DEPT_NAME_NOT_UNIQUE;
         }
         return UserConstants.DEPT_NAME_UNIQUE;
+    }
+
+    /**
+     * 同步hr部门信息
+     * @return
+     */
+    @Override
+    public int syncDept() {
+        DeptPersonTransferService deptPersonTransferService = new DeptPersonTransferService();
+        DeptPersonTransferServicePortType port = deptPersonTransferService.getDeptPersonTransferServiceHttpSoap11Endpoint();
+        String response = port.getDeptList();
+        if (StringUtils.isNotEmpty(response)){
+            DeptResult data = JSON.parseObject(response, DeptResult.class);
+            if("1".equals(data.getResponseStatus()) && data.getData() != null && data.getData().size() > 0){
+                Dept sysDept;
+                List<WebServiceDept> deptList = data.getData();
+                for (WebServiceDept dept : deptList) {
+                    sysDept = new Dept();
+                    sysDept.setDeptId(dept.getDept_code());
+                    sysDept.setDeptName(dept.getDept_name());
+                    sysDept.setParentId(dept.getParent_code());
+                    sysDept.setOrderNum("0");
+                    sysDept.setStatus("0".equals(dept.getActive_flag())?"1":"0");
+                    sysDept.setDelFlag("0");
+                    deptMapper.insertDept(sysDept);
+                }
+                log.info("同步部门信息完成");
+            }
+        }
+        return 1;
     }
 }

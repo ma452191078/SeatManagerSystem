@@ -172,4 +172,10 @@ public interface IUserService
      * @return 结果
      */
     public int changeStatus(User user);
+
+    /**
+     * 同步HR人员信息
+     * @return
+     */
+    int syncUser();
 }

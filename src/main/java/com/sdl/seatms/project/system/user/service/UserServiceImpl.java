@@ -3,6 +3,7 @@ package com.sdl.seatms.project.system.user.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.alibaba.fastjson.JSON;
 import com.sdl.seatms.project.system.post.domain.Post;
 import com.sdl.seatms.project.system.post.mapper.PostMapper;
 import com.sdl.seatms.project.system.role.domain.Role;
@@ -10,6 +11,11 @@ import com.sdl.seatms.project.system.role.mapper.RoleMapper;
 import com.sdl.seatms.project.system.user.domain.User;
 import com.sdl.seatms.project.system.user.domain.UserPost;
 import com.sdl.seatms.project.system.user.domain.UserRole;
+import com.sdl.seatms.project.system.webservice.domain.UserResult;
+import com.sdl.seatms.project.system.webservice.domain.WebServicePerson;
+import com.sdl.seatms.project.system.webservice.domain.WebServiceResult;
+import com.sdl.seatms.project.webservice.DeptPersonTransferService;
+import com.sdl.seatms.project.webservice.DeptPersonTransferServicePortType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -481,5 +487,38 @@ public class UserServiceImpl implements IUserService
             throw new BusinessException("不允许修改超级管理员用户");
         }
         return userMapper.updateUser(user);
+    }
+
+    /**
+     * 同步HR人员信息
+     * @return
+     */
+    @Override
+    public int syncUser() {
+        DeptPersonTransferService deptPersonTransferService = new DeptPersonTransferService();
+        DeptPersonTransferServicePortType port = deptPersonTransferService.getDeptPersonTransferServiceHttpSoap11Endpoint();
+        String response = port.getPersonList("1990-01-01");
+        if (StringUtils.isNotEmpty(response)){
+            UserResult data = JSON.parseObject(response, UserResult.class);
+            if("1".equals(data.getResponseStatus()) && data.getData() != null && data.getData().size() > 0){
+                User sysUser;
+                for (WebServicePerson person : data.getData()) {
+                    sysUser = new User();
+                    sysUser.setUserId(person.getP_code());
+                    sysUser.setLoginName(person.getP_code().toString());
+                    sysUser.setUserName(person.getP_name());
+                    sysUser.setDeptId(person.getP_dept());
+                    sysUser.setSex("0".equals(person.getP_gender())?"1":"0");
+                    sysUser.setStatus("1");
+                    sysUser.setDelFlag("0");
+                    sysUser.setSalt(person.getP_code().toString());
+                    sysUser.setPassword(passwordService.encryptPassword(sysUser.getLoginName(),"123456",sysUser.getSalt()));
+                    sysUser.setRoleId(3L);
+                    userMapper.insertUser(sysUser);
+                }
+                log.info("同步人员信息完成");
+            }
+        }
+        return 1;
     }
 }

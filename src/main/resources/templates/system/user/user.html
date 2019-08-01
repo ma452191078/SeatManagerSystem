@@ -79,6 +79,9 @@
 		            <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:user:export">
 			            <i class="fa fa-download"></i> 导出
 			        </a>
+					<a class="btn btn-info" onclick="syncUser();">
+						<i class="fa fa-cloud-download"></i> 同步人员
+					</a>
 		        </div>
 		        
 		        <div class="col-sm-12 select-table table-striped">
@@ -243,6 +246,12 @@
 				$.operate.post(prefix + "/changeStatus", { "userId": userId, "status": 0 });
 		    })
 		}
+        function syncUser() {
+            $.modal.confirm("确认同步人员吗？", function() {
+                var url = prefix + "/syncUser";
+                $.operate.submit(url, "post", "json");
+            });
+        }
 	</script>
 </body>
 <!-- 导入区域 -->

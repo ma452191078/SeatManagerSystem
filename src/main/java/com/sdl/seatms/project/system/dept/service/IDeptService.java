@@ -91,4 +91,6 @@ public interface IDeptService
      * @return 结果
      */
     public String checkDeptNameUnique(Dept dept);
+
+    int syncDept();
 }

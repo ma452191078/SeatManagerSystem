@@ -121,6 +121,16 @@ public class DeptController extends BaseController
     }
 
     /**
+     * 同步部门
+     */
+    @PostMapping("/syncDept")
+    @ResponseBody
+    public AjaxResult syncDept()
+    {
+        return toAjax(deptService.syncDept());
+    }
+
+    /**
      * 校验部门名称
      */
     @PostMapping("/checkDeptNameUnique")
