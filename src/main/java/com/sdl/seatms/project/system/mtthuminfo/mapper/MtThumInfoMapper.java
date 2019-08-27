@@ -19,7 +19,9 @@ public interface MtThumInfoMapper
      * @return 座次图信息
      */
 	public MtThumInfo selectMtThumInfoById(String thumId);
-	
+
+	public MtThumInfo selectMtThumInfoByAreaId(MtThumInfo mtThumInfo);
+
 	/**
      * 查询座次图列表
      * 

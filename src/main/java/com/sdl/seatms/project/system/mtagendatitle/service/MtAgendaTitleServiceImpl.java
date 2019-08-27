@@ -36,18 +36,27 @@ ID
 	}
 	
 	/**
-     * 查询会议日程主
-列表
+     * 查询会议日程主列表
      * 
-     * @param mtAgendaTitle 会议日程主
-信息
-     * @return 会议日程主
-集合
+     * @param mtAgendaTitle 会议日程主信息
+     * @return 会议日程主集合
      */
 	@Override
 	public List<MtAgendaTitle> selectMtAgendaTitleList(MtAgendaTitle mtAgendaTitle)
 	{
 	    return mtAgendaTitleMapper.selectMtAgendaTitleList(mtAgendaTitle);
+	}
+
+	/**
+     * 查询会议日程主列表
+     *
+     * @param meetId 会议id
+     * @return 会议日程主集合
+     */
+	@Override
+	public List<MtAgendaTitle> selectMtAgendaTitleListByMeetId(String meetId)
+	{
+	    return mtAgendaTitleMapper.selectMtAgendaTitleListByMeetId(meetId);
 	}
 	
     /**

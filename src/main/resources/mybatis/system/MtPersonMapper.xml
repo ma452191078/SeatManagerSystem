@@ -11,17 +11,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="personDept"    column="person_dept"    />
         <result property="personArea"    column="person_area"    />
         <result property="personRow"    column="person_row"    />
+        <result property="personThumRow"    column="person_thum_row"    />
         <result property="personCol"    column="person_col"    />
+        <result property="personThumCol"    column="person_thum_col"    />
         <result property="meetId"    column="meet_id"    />
         <result property="createBy"    column="create_by"    />
         <result property="createTime"    column="create_time"    />
         <result property="updateBy"    column="update_by"    />
         <result property="updateTime"    column="update_time"    />
+        <association property="mtThumInfo" column="person_area"
+                     select="com.sdl.seatms.project.system.mtthuminfo.mapper.MtThumInfoMapper.selectMtThumInfoById" />
     </resultMap>
 	
 	<sql id="selectMtPersonVo">
-        select person_id, person_code, person_name, person_dept,person_area, person_row, person_col,
-         create_by, create_time, update_by, update_time from mt_person
+        select person_id, person_code, person_name, person_dept,person_area, person_row, person_thum_row, person_col,
+        person_thum_col, create_by, create_time, update_by, update_time, meet_id from mt_person
     </sql>
 	
     <select id="selectMtPersonList" parameterType="MtPerson" resultMap="MtPersonResult">
@@ -67,7 +71,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="personArea != null  and personArea != ''  ">person_area,</if>
 			<if test="meetId != null  and meetId != ''  ">meet_id,</if>
 			<if test="personRow != null  ">person_row,</if>
+			<if test="personThumRow != null  ">person_thum_row,</if>
 			<if test="personCol != null  ">person_col,</if>
+			<if test="personThumCol != null  ">person_thum_col,</if>
             <if test="createBy != null  and createBy != ''  ">create_by,</if>
             create_time
          </trim>
@@ -79,7 +85,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="personArea != null  and personArea != ''  ">#{personArea},</if>
 			<if test="meetId != null  and meetId != ''  ">#{meetId},</if>
 			<if test="personRow != null  ">#{personRow},</if>
+			<if test="personThumRow != null  ">#{personThumRow},</if>
 			<if test="personCol != null  ">#{personCol},</if>
+			<if test="personThumCol != null  ">#{personThumCol},</if>
             <if test="createBy != null  and createBy != ''  ">#{createBy},</if>
             sysdate()
          </trim>
@@ -93,7 +101,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="personDept != null  and personDept != ''  ">person_dept = #{personDept},</if>
             <if test="personArea != null  and personArea != ''  ">person_area = #{personArea},</if>
             <if test="personRow != null  ">person_row = #{personRow},</if>
+            <if test="personThumRow != null  ">person_thum_row = #{personThumRow},</if>
             <if test="personCol != null  ">person_col = #{personCol},</if>
+            <if test="personThumCol != null  ">person_thum_col = #{personThumCol},</if>
             <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
             update_time = sysdate()
         </trim>

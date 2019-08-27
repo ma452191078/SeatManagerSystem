@@ -18,7 +18,11 @@ public interface IMtThumInfoService
      * @return 座次图信息
      */
 	public MtThumInfo selectMtThumInfoById(String thumId);
-	
+
+	public MtThumInfo selectMtThumInfoByAreaId(String meetId, String areaId);
+
+	public List<MtThumInfo> selectMtThumInfoListByMeetId(String meetId);
+
 	/**
      * 查询座次图列表
      * 

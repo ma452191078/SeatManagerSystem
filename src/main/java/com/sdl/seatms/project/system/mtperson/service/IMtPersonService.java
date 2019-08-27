@@ -18,7 +18,8 @@ public interface IMtPersonService
      * @return 参会人员信息
      */
 	public MtPerson selectMtPersonById(String personId);
-	
+	public MtPerson selectMtPersonByCode(String personCode);
+
 	/**
      * 查询参会人员列表
      * 
@@ -67,6 +68,13 @@ public interface IMtPersonService
 	 * @return
 	 */
 	public Integer selectPersonCount(String meetId);
+
+    /**
+     * 计算所在区域内的位置
+     * @param mtPerson
+     * @return
+     */
+    public MtPerson getPersonThumNum(MtPerson mtPerson);
 
 
 }

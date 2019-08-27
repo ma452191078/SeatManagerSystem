@@ -7,7 +7,8 @@
     <div class="wrapper wrapper-content animated fadeInRight ibox-content">
         <form class="form-horizontal m" id="form-mtPerson-edit" th:object="${mtPerson}">
             <input id="personId" name="personId" th:field="*{personId}"  type="hidden">
-			<div class="form-group">	
+            <input id="meetId" name="meetId" th:field="*{meetId}"  type="hidden">
+			<div class="form-group">
 				<label class="col-sm-3 control-label">员工编号：</label>
 				<div class="col-sm-8">
 					<input id="personCode" name="personCode" th:field="*{personCode}" class="form-control" type="text">

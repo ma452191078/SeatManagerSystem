@@ -252,6 +252,7 @@ public class ShiroConfig
         filterChainDefinitionMap.put("/sdl/**", "anon");
         filterChainDefinitionMap.put("/druid/**", "anon");
         filterChainDefinitionMap.put("/seatms/**", "anon");
+        filterChainDefinitionMap.put("/mobile/**", "anon");
         filterChainDefinitionMap.put("/captcha/captchaImage**", "anon");
         // 退出 logout地址，shiro去清除session
         filterChainDefinitionMap.put("/logout", "logout");

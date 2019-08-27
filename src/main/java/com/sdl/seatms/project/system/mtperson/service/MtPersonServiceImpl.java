@@ -1,11 +1,17 @@
 package com.sdl.seatms.project.system.mtperson.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
 import com.sdl.seatms.common.exception.BusinessException;
 import com.sdl.seatms.common.utils.StringUtils;
 import com.sdl.seatms.common.utils.security.ShiroUtils;
+import com.sdl.seatms.project.system.mtmeetinfo.domain.MtMeetInfo;
+import com.sdl.seatms.project.system.mtmeetinfo.mapper.MtMeetInfoMapper;
+import com.sdl.seatms.project.system.mtthuminfo.domain.MtThumInfo;
+import com.sdl.seatms.project.system.mtthuminfo.mapper.MtThumInfoMapper;
 import com.sdl.seatms.project.system.user.domain.User;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +33,11 @@ public class MtPersonServiceImpl implements IMtPersonService
 	@Autowired
 	private MtPersonMapper mtPersonMapper;
 
+	@Autowired
+	private MtMeetInfoMapper mtMeetInfoMapper;
+
+	@Autowired
+	private MtThumInfoMapper mtThumInfoMapper;
 	/**
      * 查询参会人员信息
      * 
@@ -38,7 +49,19 @@ public class MtPersonServiceImpl implements IMtPersonService
 	{
 	    return mtPersonMapper.selectMtPersonById(personId);
 	}
-	
+
+	/**
+     * 查询参会人员信息
+     *
+     * @param personCode 参会人员ID
+     * @return 参会人员信息
+     */
+    @Override
+	public MtPerson selectMtPersonByCode(String personCode)
+	{
+	    return mtPersonMapper.selectMtPersonByCode(personCode);
+	}
+
 	/**
      * 查询参会人员列表
      * 
@@ -60,7 +83,7 @@ public class MtPersonServiceImpl implements IMtPersonService
 	@Override
 	public int insertMtPerson(MtPerson mtPerson)
 	{
-	    return mtPersonMapper.insertMtPerson(mtPerson);
+	    return mtPersonMapper.insertMtPerson(getPersonThumNum(mtPerson));
 	}
 	
 	/**
@@ -72,7 +95,7 @@ public class MtPersonServiceImpl implements IMtPersonService
 	@Override
 	public int updateMtPerson(MtPerson mtPerson)
 	{
-	    return mtPersonMapper.updateMtPerson(mtPerson);
+		return mtPersonMapper.updateMtPerson(getPersonThumNum(mtPerson));
 	}
 
 	/**
@@ -121,7 +144,7 @@ public class MtPersonServiceImpl implements IMtPersonService
 					person.setPersonId(UUID.randomUUID().toString());
 					person.setCreateBy(operName);
 					person.setMeetId(meetId);
-					this.insertMtPerson(person);
+					this.insertMtPerson(getPersonThumNum(person));
 					successNum++;
 					successMsg.append("<br/>" + successNum + "、员工 " + person.getPersonCode() + person.getPersonName() + " 导入成功");
 				}
@@ -129,7 +152,7 @@ public class MtPersonServiceImpl implements IMtPersonService
 				{
 					person.setPersonId(p.getPersonId());
 					person.setUpdateBy(operName);
-					this.updateMtPerson(person);
+					this.updateMtPerson(getPersonThumNum(person));
 					successNum++;
 					successMsg.append("<br/>" + successNum + "、员工 " + person.getPersonCode() + person.getPersonName() + " 更新成功");
 				}
@@ -159,6 +182,52 @@ public class MtPersonServiceImpl implements IMtPersonService
 		return successMsg.toString();
 	}
 
+	/**
+	 * 计算所在区域内的位置
+	 * @param mtPerson
+	 * @return
+	 */
+	@Override
+	public MtPerson getPersonThumNum(MtPerson mtPerson){
+		MtMeetInfo meetInfo = mtMeetInfoMapper.selectMtMeetInfoById(mtPerson.getMeetId());
+		List<MtThumInfo> thumInfoList = mtThumInfoMapper.selectMtThumInfoListByMeetId(mtPerson.getMeetId());
+		HashMap<Integer, List<MtThumInfo>> rowThumMap = new HashMap<Integer, List<MtThumInfo>>();
+
+		// 重新组合每行的座次图
+		for (int i=1; i <= meetInfo.getMeetRow(); i++){
+			List<MtThumInfo> tmpList = new ArrayList<>();
+			for (MtThumInfo thumInfo : thumInfoList) {
+				if (thumInfo.getThumRow() != i){
+					continue;
+				}
+				tmpList.add(thumInfo);
+			}
+			rowThumMap.put(i, tmpList);
+		}
+
+		int tempRow = mtPerson.getPersonRow();
+		int tempCol = mtPerson.getPersonCol();
+		for (int i=1; i<=rowThumMap.size(); i++){
+			// 检查是否在当前行内
+			tempRow = tempRow - rowThumMap.get(i).get(0).getRowNum();
+			if (tempRow <= 0) {
+				// 在行内，遍历行内座次，查找对应的列
+				for (MtThumInfo info : rowThumMap.get(i)){
+					tempCol = tempCol - info.getColNum();
+					if (tempCol <= 0){
+						mtPerson.setPersonArea(info.getThumId());
+						mtPerson.setPersonThumCol(info.getColNum() + tempCol);
+						mtPerson.setPersonThumRow(rowThumMap.get(i).get(0).getRowNum() + tempRow);
+						break;
+					} else {
+						continue;
+					}
+				}
+				break;
+			}
+		}
+		return mtPerson;
+	}
 	/**
 	 * 查询参会人数
 	 * @param meetId

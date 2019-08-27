@@ -25,6 +25,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </where>
         order by agenda_date
     </select>
+
+    <select id="selectMtAgendaTitleListByMeetId" parameterType="string" resultMap="MtAgendaTitleResult">
+        <include refid="selectMtAgendaTitleVo"/>
+        where meet_id = #{meetId}
+        order by agenda_date
+    </select>
     
     <select id="selectMtAgendaTitleById" parameterType="String" resultMap="MtAgendaTitleResult">
         <include refid="selectMtAgendaTitleVo"/>

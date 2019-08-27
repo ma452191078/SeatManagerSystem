@@ -33,7 +33,8 @@ ID
 集合
      */
 	public List<MtAgendaTitle> selectMtAgendaTitleList(MtAgendaTitle mtAgendaTitle);
-	
+	public List<MtAgendaTitle> selectMtAgendaTitleListByMeetId(String meetId);
+
 	/**
      * 新增会议日程主
 

@@ -23,9 +23,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select thum_id, meet_id, area_id, thum_row, thum_col, thum_color,row_num,col_num, create_by, create_time, update_by, update_time from mt_thum_info
     </sql>
 	
+    <select id="selectMtThumInfoByAreaId" parameterType="MtThumInfo" resultMap="MtThumInfoResult">
+        <include refid="selectMtThumInfoVo"/>
+        <where>
+             <if test="meetId != null  and meetId != '' "> and meet_id = #{meetId}</if>
+             <if test="areaId != null  and areaId != '' "> and area_id = #{areaId}</if>
+             <if test="thumId != null  and thumId != '' "> and thum_id = #{thumId}</if>
+         </where>
+    </select>
+
     <select id="selectMtThumInfoList" parameterType="MtThumInfo" resultMap="MtThumInfoResult">
         <include refid="selectMtThumInfoVo"/>
-        <where>  
+        <where>
             <if test="thumId != null  and thumId != '' "> and thum_id = #{thumId}</if>
              <if test="meetId != null  and meetId != '' "> and meet_id = #{meetId}</if>
              <if test="areaId != null  and areaId != '' "> and area_id = #{areaId}</if>
@@ -42,7 +51,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectMtThumInfoListByMeetId" parameterType="MtThumInfo" resultMap="MtThumInfoResult">
         <include refid="selectMtThumInfoVo"/>
         where meet_id = #{meetId}
-        order by create_time desc
+        order by thum_row, thum_col
     </select>
     
     <select id="selectMtThumInfoById" parameterType="String" resultMap="MtThumInfoResult">

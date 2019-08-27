@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:include="include :: header('座次查询')" />
+	<link th:href="@{/css/mobile.css}" rel="stylesheet"/>
+</head>
+<body>
+     <div class="container" id="body" v-cloak>
+		<div style="width:100%; margin-top: 20px; margin-bottom: 20px;">
+			<img class="col-md-7 col-sm-7 col-xs-12" style="margin-bottom: 20px;" th:src="@{/img/pageHead201906.png}">
+			<ul class="mobile-nav masthead-nav">
+				<li class="active" id="inLi" ><a href="index.html" target="_parent" >座次查询</a></li>
+				<li id="prLi"><a th:href="${'/mobile/getScheduleInfo/'+mtMeetInfo.meetId}" target="_parent" >会议日程</a></li>
+			</ul>
+		</div>
+		<div class="row" style="margin: 40px 40px 0 40px;">
+			<div style="text-align: center; line-height: 90px;">
+				<input class="form-control" type="text" id="personCode" style="text-align: center;"/>
+				<button type="button" class="btn" style="background: #ffffff;" th:onclick="getMeetInfo()"><i class="fa fa-search"></i> 搜索 </button>
+			</div>
+		</div>
+		<div class="row" style="padding: 20px;font-size: 15px; text-align: center;">
+			<div v-if="personInfo !== undefined">{{personInfo.personName}}({{personInfo.personCode}})   区域：{{personInfo.mtThumInfo.areaId}},第{{personInfo.personRow}}排，第{{personInfo.personCol}}列</div>
+		</div>
+		<div class="row">
+			<div class="row">
+				<div class="meet-thum-platform">主席台</div>
+			</div>
+			<div class="row meet-thum-row"  th:each="rowIndex:${#numbers.sequence(1,mtMeetInfo.meetRow)}">
+				<div class="meet-thum-item meet-thum-item-mobile" th:each="thum:${thumList.get(rowIndex)} " th:text="${thum.areaId}" th:id="${thum.thumId}"
+					 th:style="'background:'+${thum.thumColor}">
+				</div>
+			</div>
+		</div>
+
+		<div class="row" v-if="rowNum > 0" v-cloak style="text-align: center; padding: 20px;">
+			<div v-for="rowCount in rowNum" style="line-height: 0px;">
+				<div v-for="colCount in colNum" v-bind:class="rowCount == personInfo.personThumRow && colCount == personInfo.personThumCol?'thum-seat-uncheck thum-seat-check':'thum-seat-uncheck'" v-bind:id="rowCount+'_'+colCount"></div>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+	<div th:include="include :: vue-js"></div>
+    <script th:inline="javascript">
+        var prefix = ctx + "mobile";
+        var meetId = [[${mtMeetInfo.meetId}]];
+        let vm = null;
+
+        $(function () {
+            vm = new Vue({
+                el: '#body',
+                data: {
+                    personInfo:undefined,
+                    meetInfo:{},
+                    rowNum: 0,
+                    colNum: 0
+                },
+                methods: {
+                    updatePserson: function (data) {
+						this.personInfo = data;
+						$(".meet-thum-item").attr("class", "meet-thum-item meet-thum-item-mobile");
+						$("#"+data.mtThumInfo.thumId).attr("class","meet-thum-item meet-thum-item-mobile-check");
+                    },
+					updateRowAndCol(row, col) {
+                        this.rowNum = row;
+                        this.colNum = col;
+					}
+                }
+            });
+        });
+
+        function getMeetInfo() {
+            var data = {"personCode": $("#personCode").val(), "meetId":meetId};
+            var config = {
+                url: prefix + "/getPersonInfo",
+                type: "post",
+                dataType: "json",
+                data: data,
+                beforeSend: function () {
+                    $.modal.loading("正在处理中，请稍后...");
+                },
+                success: function (result) {
+                    if (result.code == web_status.SUCCESS) {
+						vm.updatePserson(result.mtPerson);
+						vm.updateRowAndCol(result.mtPerson.mtThumInfo.rowNum,result.mtPerson.mtThumInfo.colNum);
+                        $.modal.closeLoading();
+                    } else if (result.code == web_status.WARNING) {
+                        $.modal.alertWarning(result.msg);
+                    } else {
+                        $.modal.alertError(result.msg);
+                    }
+                    $.modal.closeLoading();
+                }
+            };
+            $.ajax(config);
+        }
+
+    </script>
+</body>
+</html>

@@ -30,7 +30,20 @@ public class MtThumInfoServiceImpl implements IMtThumInfoService
 	{
 	    return mtThumInfoMapper.selectMtThumInfoById(thumId);
 	}
-	
+
+	@Override
+	public MtThumInfo selectMtThumInfoByAreaId(String meetId, String areaId) {
+    	MtThumInfo mtThumInfo = new MtThumInfo();
+    	mtThumInfo.setMeetId(meetId);
+    	mtThumInfo.setThumId(areaId);
+		return mtThumInfoMapper.selectMtThumInfoByAreaId(mtThumInfo);
+	}
+
+	@Override
+	public List<MtThumInfo> selectMtThumInfoListByMeetId(String meetId) {
+		return mtThumInfoMapper.selectMtThumInfoListByMeetId(meetId);
+	}
+
 	/**
      * 查询座次图列表
      * 

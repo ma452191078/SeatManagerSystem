@@ -1,10 +1,15 @@
 package com.sdl.seatms.project.system.mtperson.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
 import com.sdl.seatms.common.utils.security.ShiroUtils;
+import com.sdl.seatms.project.system.mtmeetinfo.domain.MtMeetInfo;
 import com.sdl.seatms.project.system.mtmeetinfo.service.IMtMeetInfoService;
+import com.sdl.seatms.project.system.mtthuminfo.domain.MtThumInfo;
+import com.sdl.seatms.project.system.mtthuminfo.service.IMtThumInfoService;
 import com.sdl.seatms.project.system.user.domain.User;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +47,9 @@ public class MtPersonController extends BaseController
 
 	@Autowired
 	private IMtMeetInfoService mtMeetInfoService;
+
+	@Autowired
+	private IMtThumInfoService mtThumInfoService;
 	
 	@RequiresPermissions("meeting:mtperson:view")
 	@GetMapping()
@@ -128,7 +136,8 @@ public class MtPersonController extends BaseController
 	{		
 		mtPerson.setPersonId(UUID.randomUUID().toString());
 		mtPerson.setCreateBy(ShiroUtils.getSysUser().getUserName());
-		return toAjax(mtPersonService.insertMtPerson(mtPerson));
+
+		return toAjax(mtPersonService.insertMtPerson(mtPersonService.getPersonThumNum(mtPerson)));
 	}
 
 	/**
@@ -138,7 +147,7 @@ public class MtPersonController extends BaseController
 	public String edit(@PathVariable("personId") String personId, ModelMap mmap)
 	{
 		MtPerson mtPerson = mtPersonService.selectMtPersonById(personId);
-		mmap.put("mtperson", mtPerson);
+		mmap.put("mtPerson", mtPerson);
 	    return prefix + "/edit";
 	}
 	
@@ -151,7 +160,7 @@ public class MtPersonController extends BaseController
 	@ResponseBody
 	public AjaxResult editSave(MtPerson mtPerson)
 	{		
-		return toAjax(mtPersonService.updateMtPerson(mtPerson));
+		return toAjax(mtPersonService.updateMtPerson(mtPersonService.getPersonThumNum(mtPerson)));
 	}
 	
 	/**

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:include="include :: header('座次查询')" />
+	<link th:href="@{/css/mobile.css}" rel="stylesheet"/>
+</head>
+<body>
+     <div class="container">
+		<div style="width:100%; margin-top: 20px; margin-bottom: 20px;">
+			<img class="col-md-7 col-sm-7 col-xs-12" style="margin-bottom: 20px;" th:src="@{/img/pageHead201906.png}">
+			<ul class="mobile-nav masthead-nav">
+				<li id="inLi" ><a th:href="${'/mobile/index/'+meetId}" target="_parent" >座次查询</a></li>
+				<li class="active" id="prLi"><a href="programme.html" target="_parent" >会议日程</a></li>
+			</ul>
+		</div>
+		<div class="row">
+			<div class="col-xs-12" th:each="agenda, agendaStat:${agendaList}">
+				<div class="ibox panel-stanley">
+					<div class="ibox-title panel-heading panel-new">
+						<h3 class="panel-title" th:text="${#dates.format(agenda.agendaDate,'m月d日')}"></h3>
+					</div>
+					<div class="ibox-content panel-content">
+						<div class="row" style="margin: 5px 0 5px 0;" th:each="item:${agenda.itemList}">
+							<div class="col-xs-5" th:text="${item.itemStart} + ' - ' + ${item.itemEnd}"></div>
+							<div class="col-xs-7" th:text="${item.itemContent}"></div>
+						</div>
+					</div>
+				</div>
+				<div th:if="${agendaStat.index == 3}" class="clearfix"></div>
+			</div>
+		</div>
+
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var prefix = ctx + "mobile";
+
+
+    </script>
+</body>
+</html>

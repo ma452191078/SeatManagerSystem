@@ -4,6 +4,7 @@ package com.sdl.seatms.project.system.mtperson.domain;
 import com.sdl.seatms.framework.aspectj.lang.annotation.Excel;
 import com.sdl.seatms.framework.web.domain.BaseEntity;
 import com.sdl.seatms.project.system.mtmeetinfo.domain.MtMeetInfo;
+import com.sdl.seatms.project.system.mtthuminfo.domain.MtThumInfo;
 import lombok.Data;
 
 /**
@@ -34,12 +35,16 @@ public class MtPerson extends BaseEntity
 	/** 行 */
 	@Excel(name = "行")
 	private Integer personRow;
+	private Integer personThumRow;
+
 	/** 列 */
 	@Excel(name = "列")
 	private Integer personCol;
+	private Integer personThumCol;
 
 	private String meetId;
 
 	private MtMeetInfo mtMeetInfo;
+	private MtThumInfo mtThumInfo;
 
 }
