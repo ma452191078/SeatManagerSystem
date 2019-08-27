@@ -55,7 +55,7 @@
 					<span class="help-block red">图片必须为背景透明的png格式，<br>建议尺寸：1024px * 175px</span>
 					<div class="fileinput fileinput-new" data-provides="fileinput">
 						<div class="fileinput-new thumbnail" style="width: 273px; height: 46px;">
-							<img th:src="*{'http://localhost'+meetLogo}">
+							<img th:src="*{ctx+meetLogo}">
 						</div>
 						<div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 273px; max-height: 46px;"></div>
 						<div>
@@ -84,9 +84,41 @@
 		
 		function submitHandler() {
 	        if ($.validate.form()) {
-	            $.operate.save(prefix + "/edit", $('#form-mtMeetInfo-edit').serialize());
+                uploadImg();
 	        }
 	    }
+
+        function uploadImg() {
+            var formData = new FormData();
+            var name = $("#meetLogoFile").val();
+            formData.append("file",$("#meetLogoFile")[0].files[0]);
+            var url = ctx + "common/upload";
+            $.ajax({
+                url : url,
+                type : 'POST',
+                data : formData,
+                processData : false,
+                contentType : false,
+                beforeSend:function(){
+                    console.log("正在进行，请稍候");
+
+                },
+                success : function(data) {
+                    console.log(data);
+                    if (data.code === 0) {
+                        $("#meetLogo").val(data.url);
+                        $.operate.save(prefix + "/edit", $('#form-mtMeetInfo-edit').serialize());
+                    } else {
+                        $.modal.alert("图片上传失败，请重试")
+                    }
+                },
+                error : function(responseStr) {
+                    alert('上传失败请重试');
+                    console.log("error");
+                }
+            });
+
+        }
 
         function dateTimeInit() {
             layui.use('laydate', function(){

@@ -157,9 +157,11 @@
                 success : function(data) {
                     console.log(data);
                     if (data.code === 0) {
-                        $("#meetLogo").val(data.fileName);
+                        $("#meetLogo").val(data.url);
+                        $.operate.save(prefix + "/add", $('#form-mtMeetInfo-add').serialize());
+                    } else {
+                        $.modal.alert("图片上传失败，请重试")
                     }
-                    $.operate.save(prefix + "/add", $('#form-mtMeetInfo-add').serialize());
                 },
                 error : function(responseStr) {
                     alert('上传失败请重试');

@@ -3,6 +3,20 @@
 <head>
 	<th:block th:include="include :: header('座次查询')" />
 	<link th:href="@{/css/mobile.css}" rel="stylesheet"/>
+    <script>(function(T,h,i,n,k,P,a,g,e){g=function(){P=h.createElement(i);a=h.getElementsByTagName(i)[0];P.src=k;P.charset="utf-8";P.async=1;a.parentNode.insertBefore(P,a)};T["ThinkPageWeatherWidgetObject"]=n;T[n]||(T[n]=function(){(T[n].q=T[n].q||[]).push(arguments)});T[n].l=+new Date();if(T.attachEvent){T.attachEvent("onload",g)}else{T.addEventListener("load",g,false)}}(window,document,"script","tpwidget","//widget.seniverse.com/widget/chameleon.js"))</script>
+    <script>tpwidget("init", {
+        "flavor": "bubble",
+        "location": "WWHQEUYR9RU3",
+        "geolocation": "disabled",
+        "position": "bottom-right",
+        "margin": "10px 10px",
+        "language": "zh-chs",
+        "unit": "c",
+        "theme": "chameleon",
+        "uid": "UD9C8A1763",
+        "hash": "f8dd7888f32b82872df15a05f85ec0de"
+    });
+    tpwidget("show");</script>
 </head>
 <body>
      <div class="container">
@@ -17,10 +31,10 @@
 			<div class="col-xs-12" th:each="agenda, agendaStat:${agendaList}">
 				<div class="ibox panel-stanley">
 					<div class="ibox-title panel-heading panel-new">
-						<h3 class="panel-title" th:text="${#dates.format(agenda.agendaDate,'m月d日')}"></h3>
+						<h3 class="panel-title" th:text="${#dates.format(agenda.agendaDate,'M月d日')}"></h3>
 					</div>
 					<div class="ibox-content panel-content">
-						<div class="row" style="margin: 5px 0 5px 0;" th:each="item:${agenda.itemList}">
+						<div class="row" style="font-size: 15px;margin: 5px 0 5px 0;" th:each="item:${agenda.itemList}">
 							<div class="col-xs-5" th:text="${item.itemStart} + ' - ' + ${item.itemEnd}"></div>
 							<div class="col-xs-7" th:text="${item.itemContent}"></div>
 						</div>

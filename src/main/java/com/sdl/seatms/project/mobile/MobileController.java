@@ -18,6 +18,10 @@ import com.sdl.seatms.project.system.mtperson.service.IMtPersonService;
 import com.sdl.seatms.project.system.mtthuminfo.domain.MtThumInfo;
 import com.sdl.seatms.project.system.mtthuminfo.service.IMtThumInfoService;
 import com.sdl.seatms.project.system.role.domain.Role;
+import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.cp.api.WxCpOAuth2Service;
+import me.chanjar.weixin.cp.api.WxCpService;
+import me.chanjar.weixin.cp.bean.WxCpUser;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -56,9 +60,24 @@ public class MobileController extends BaseController
     @Autowired
     private IMtAgendaItemService mtAgendaItemService;
 
+    @Autowired
+    WxCpService wxCpService;
+
     @GetMapping("/index/{meetId}")
-    public String mobile(@PathVariable("meetId") String meetId, ModelMap mmap)
+    public String mobile(@PathVariable("meetId") String meetId, @RequestParam(value="code",required = false) String code, ModelMap mmap)
     {
+        WxCpUser wxCpUser = null;
+        if (StringUtils.isNotEmpty(code)){
+            WxCpOAuth2Service wxCpOAuth2Service = wxCpService.getOauth2Service();
+
+            String[] res = new String[0];
+            try {
+                res = wxCpOAuth2Service.getUserInfo(code);
+                wxCpUser = wxCpService.getUserService().getById(res[0]);
+            } catch (WxErrorException e) {
+                e.printStackTrace();
+            }
+        }
         if (StringUtils.isNotEmpty(meetId)){
             MtMeetInfo mtMeetInfo = mtMeetInfoService.selectMtMeetInfoById(meetId);
             HashMap<Integer, List<MtThumInfo>> thumList = new HashMap<Integer, List<MtThumInfo>>();
@@ -70,6 +89,7 @@ public class MobileController extends BaseController
             }
             mmap.addAttribute("mtMeetInfo", mtMeetInfo);
             mmap.addAttribute("thumList", thumList);
+            mmap.addAttribute("wxCpUser", wxCpUser);
         }
 
         return prefix + "/index";

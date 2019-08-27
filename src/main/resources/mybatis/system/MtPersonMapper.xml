@@ -24,8 +24,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 	
 	<sql id="selectMtPersonVo">
-        select person_id, person_code, person_name, person_dept,person_area, person_row, person_thum_row, person_col,
-        person_thum_col, create_by, create_time, update_by, update_time, meet_id from mt_person
+        select p.person_id, p.person_code, u.user_name as person_name, d.dept_name as person_dept,p.person_area, p.person_row,
+        p.person_thum_row, p.person_col, p.person_thum_col, p.create_by, p.create_time, p.update_by, p.update_time, p.meet_id
+        from mt_person p
+        left join sys_user u on p.person_code = u.user_id
+        left join sys_dept d on u.dept_id = d.dept_id
     </sql>
 	
     <select id="selectMtPersonList" parameterType="MtPerson" resultMap="MtPersonResult">
@@ -45,16 +48,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <select id="selectMtPersonById" parameterType="String" resultMap="MtPersonResult">
         <include refid="selectMtPersonVo"/>
-        where person_id = #{personId}
+        where p.person_id = #{personId}
     </select>
     <select id="selectMtPersonByCode" parameterType="String" resultMap="MtPersonResult">
         <include refid="selectMtPersonVo"/>
-        where person_code = #{personCode}
+        where p.person_code = #{personCode}
     </select>
     <select id="selectMtPersonByObject" parameterType="MtPerson" resultMap="MtPersonResult">
         <include refid="selectMtPersonVo"/>
-        where person_code = #{personCode}
-        and meet_id = #{meetId}
+        where p.person_code = #{personCode}
+        and p.meet_id = #{meetId}
     </select>
     <select id="selectPersonCount" parameterType="String" resultType="Integer">
         select count(1) as person_num from mt_person
