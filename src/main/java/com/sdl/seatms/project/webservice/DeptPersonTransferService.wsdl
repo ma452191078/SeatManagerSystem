@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns1="http://org.apache.axis2/xsd" xmlns:ns="http://transfer.server.webServices.hr.com" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://transfer.server.webServices.hr.com">
+    <wsdl:documentation>DeptPersonTransferService</wsdl:documentation>
+    <wsdl:types>
+        <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://transfer.server.webServices.hr.com">
+            <xs:element name="getPersonList">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="date" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getPersonListResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getParaList">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="para_type_code" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getParaListResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getDeptList">
+                <xs:complexType>
+                    <xs:sequence/>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="getDeptListResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="getParaListRequest">
+        <wsdl:part name="parameters" element="ns:getParaList"/>
+    </wsdl:message>
+    <wsdl:message name="getParaListResponse">
+        <wsdl:part name="parameters" element="ns:getParaListResponse"/>
+    </wsdl:message>
+    <wsdl:message name="getDeptListRequest">
+        <wsdl:part name="parameters" element="ns:getDeptList"/>
+    </wsdl:message>
+    <wsdl:message name="getDeptListResponse">
+        <wsdl:part name="parameters" element="ns:getDeptListResponse"/>
+    </wsdl:message>
+    <wsdl:message name="getPersonListRequest">
+        <wsdl:part name="parameters" element="ns:getPersonList"/>
+    </wsdl:message>
+    <wsdl:message name="getPersonListResponse">
+        <wsdl:part name="parameters" element="ns:getPersonListResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="DeptPersonTransferServicePortType">
+        <wsdl:operation name="getParaList">
+            <wsdl:input message="ns:getParaListRequest" wsaw:Action="urn:getParaList"/>
+            <wsdl:output message="ns:getParaListResponse" wsaw:Action="urn:getParaListResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="getDeptList">
+            <wsdl:input message="ns:getDeptListRequest" wsaw:Action="urn:getDeptList"/>
+            <wsdl:output message="ns:getDeptListResponse" wsaw:Action="urn:getDeptListResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="getPersonList">
+            <wsdl:input message="ns:getPersonListRequest" wsaw:Action="urn:getPersonList"/>
+            <wsdl:output message="ns:getPersonListResponse" wsaw:Action="urn:getPersonListResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="DeptPersonTransferServiceSoap11Binding" type="ns:DeptPersonTransferServicePortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="getParaList">
+            <soap:operation soapAction="urn:getParaList" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getDeptList">
+            <soap:operation soapAction="urn:getDeptList" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getPersonList">
+            <soap:operation soapAction="urn:getPersonList" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="DeptPersonTransferServiceSoap12Binding" type="ns:DeptPersonTransferServicePortType">
+        <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="getParaList">
+            <soap12:operation soapAction="urn:getParaList" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getDeptList">
+            <soap12:operation soapAction="urn:getDeptList" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getPersonList">
+            <soap12:operation soapAction="urn:getPersonList" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="DeptPersonTransferServiceHttpBinding" type="ns:DeptPersonTransferServicePortType">
+        <http:binding verb="POST"/>
+        <wsdl:operation name="getParaList">
+            <http:operation location="getParaList"/>
+            <wsdl:input>
+                <mime:content type="application/xml" part="parameters"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="application/xml" part="parameters"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getDeptList">
+            <http:operation location="getDeptList"/>
+            <wsdl:input>
+                <mime:content type="application/xml" part="parameters"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="application/xml" part="parameters"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getPersonList">
+            <http:operation location="getPersonList"/>
+            <wsdl:input>
+                <mime:content type="application/xml" part="parameters"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="application/xml" part="parameters"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="DeptPersonTransferService">
+        <wsdl:port name="DeptPersonTransferServiceHttpSoap11Endpoint" binding="ns:DeptPersonTransferServiceSoap11Binding">
+            <soap:address location="http://hr.shidanli.cn/services/DeptPersonTransferService.DeptPersonTransferServiceHttpSoap11Endpoint/"/>
+        </wsdl:port>
+        <wsdl:port name="DeptPersonTransferServiceHttpSoap12Endpoint" binding="ns:DeptPersonTransferServiceSoap12Binding">
+            <soap12:address location="http://hr.shidanli.cn/services/DeptPersonTransferService.DeptPersonTransferServiceHttpSoap12Endpoint/"/>
+        </wsdl:port>
+        <wsdl:port name="DeptPersonTransferServiceHttpEndpoint" binding="ns:DeptPersonTransferServiceHttpBinding">
+            <http:address location="http://hr.shidanli.cn/services/DeptPersonTransferService.DeptPersonTransferServiceHttpEndpoint/"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
