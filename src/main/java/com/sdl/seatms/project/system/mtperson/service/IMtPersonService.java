@@ -1,6 +1,9 @@
 package com.sdl.seatms.project.system.mtperson.service;
 
+import com.sdl.seatms.project.system.mtmeetinfo.domain.MtMeetInfo;
 import com.sdl.seatms.project.system.mtperson.domain.MtPerson;
+import com.sdl.seatms.project.system.mtthuminfo.domain.MtThumInfo;
+
 import java.util.List;
 
 /**
@@ -74,7 +77,7 @@ public interface IMtPersonService
      * @param mtPerson
      * @return
      */
-    public MtPerson getPersonThumNum(MtPerson mtPerson);
+    public MtPerson getPersonThumNum(MtPerson mtPerson, MtMeetInfo meetInfo, List<MtThumInfo> thumInfoList);
 
 
 }

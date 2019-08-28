@@ -137,7 +137,9 @@ public class MtPersonController extends BaseController
 		mtPerson.setPersonId(UUID.randomUUID().toString());
 		mtPerson.setCreateBy(ShiroUtils.getSysUser().getUserName());
 
-		return toAjax(mtPersonService.insertMtPerson(mtPersonService.getPersonThumNum(mtPerson)));
+		MtMeetInfo meetInfo = mtMeetInfoService.selectMtMeetInfoById(mtPerson.getMeetId());
+		List<MtThumInfo> thumInfoList = mtThumInfoService.selectMtThumInfoListByMeetId(mtPerson.getMeetId());
+		return toAjax(mtPersonService.insertMtPerson(mtPersonService.getPersonThumNum(mtPerson, meetInfo, thumInfoList)));
 	}
 
 	/**
@@ -159,8 +161,10 @@ public class MtPersonController extends BaseController
 	@PostMapping("/edit")
 	@ResponseBody
 	public AjaxResult editSave(MtPerson mtPerson)
-	{		
-		return toAjax(mtPersonService.updateMtPerson(mtPersonService.getPersonThumNum(mtPerson)));
+	{
+		MtMeetInfo meetInfo = mtMeetInfoService.selectMtMeetInfoById(mtPerson.getMeetId());
+		List<MtThumInfo> thumInfoList = mtThumInfoService.selectMtThumInfoListByMeetId(mtPerson.getMeetId());
+		return toAjax(mtPersonService.updateMtPerson(mtPersonService.getPersonThumNum(mtPerson, meetInfo, thumInfoList)));
 	}
 	
 	/**

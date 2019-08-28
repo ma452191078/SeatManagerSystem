@@ -2,7 +2,7 @@
 # 开发环境配置
 server:
   # 服务器的HTTP端口，默认为80
-  port: 8080
+  port: 8087
   servlet:
     # 应用的访问路径
     context-path: /
@@ -42,7 +42,7 @@ spring:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
   profiles: 
-    active: dev
+    active: prd
   # 文件上传
   servlet:
      multipart:

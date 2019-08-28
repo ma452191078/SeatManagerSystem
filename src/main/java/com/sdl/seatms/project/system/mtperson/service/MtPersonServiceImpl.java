@@ -22,13 +22,13 @@ import com.sdl.seatms.common.utils.text.Convert;
 
 /**
  * 参会人员 服务层实现
- * 
+ *
  * @author sdl
  * @date 2019-07-17
  */
 @Log4j2
 @Service
-public class MtPersonServiceImpl implements IMtPersonService 
+public class MtPersonServiceImpl implements IMtPersonService
 {
 	@Autowired
 	private MtPersonMapper mtPersonMapper;
@@ -39,71 +39,75 @@ public class MtPersonServiceImpl implements IMtPersonService
 	@Autowired
 	private MtThumInfoMapper mtThumInfoMapper;
 	/**
-     * 查询参会人员信息
-     * 
-     * @param personId 参会人员ID
-     * @return 参会人员信息
-     */
-    @Override
+	 * 查询参会人员信息
+	 *
+	 * @param personId 参会人员ID
+	 * @return 参会人员信息
+	 */
+	@Override
 	public MtPerson selectMtPersonById(String personId)
 	{
-	    return mtPersonMapper.selectMtPersonById(personId);
+		return mtPersonMapper.selectMtPersonById(personId);
 	}
 
 	/**
-     * 查询参会人员信息
-     *
-     * @param personCode 参会人员ID
-     * @return 参会人员信息
-     */
-    @Override
+	 * 查询参会人员信息
+	 *
+	 * @param personCode 参会人员ID
+	 * @return 参会人员信息
+	 */
+	@Override
 	public MtPerson selectMtPersonByCode(String personCode)
 	{
-	    return mtPersonMapper.selectMtPersonByCode(personCode);
+		return mtPersonMapper.selectMtPersonByCode(personCode);
 	}
 
 	/**
-     * 查询参会人员列表
-     * 
-     * @param mtPerson 参会人员信息
-     * @return 参会人员集合
-     */
+	 * 查询参会人员列表
+	 *
+	 * @param mtPerson 参会人员信息
+	 * @return 参会人员集合
+	 */
 	@Override
 	public List<MtPerson> selectMtPersonList(MtPerson mtPerson)
 	{
-	    return mtPersonMapper.selectMtPersonList(mtPerson);
-	}
-	
-    /**
-     * 新增参会人员
-     * 
-     * @param mtPerson 参会人员信息
-     * @return 结果
-     */
-	@Override
-	public int insertMtPerson(MtPerson mtPerson)
-	{
-	    return mtPersonMapper.insertMtPerson(getPersonThumNum(mtPerson));
-	}
-	
-	/**
-     * 修改参会人员
-     * 
-     * @param mtPerson 参会人员信息
-     * @return 结果
-     */
-	@Override
-	public int updateMtPerson(MtPerson mtPerson)
-	{
-		return mtPersonMapper.updateMtPerson(getPersonThumNum(mtPerson));
+		return mtPersonMapper.selectMtPersonList(mtPerson);
 	}
 
 	/**
-     * 删除参会人员对象
-     * 
-     * @param ids 需要删除的数据ID
-     * @return 结果
-     */
+	 * 新增参会人员
+	 *
+	 * @param mtPerson 参会人员信息
+	 * @return 结果
+	 */
+	@Override
+	public int insertMtPerson(MtPerson mtPerson)
+	{
+		MtMeetInfo meetInfo = mtMeetInfoMapper.selectMtMeetInfoById(mtPerson.getMeetId());
+		List<MtThumInfo> thumInfoList = mtThumInfoMapper.selectMtThumInfoListByMeetId(mtPerson.getMeetId());
+		return mtPersonMapper.insertMtPerson(getPersonThumNum(mtPerson,meetInfo,thumInfoList));
+	}
+
+	/**
+	 * 修改参会人员
+	 *
+	 * @param mtPerson 参会人员信息
+	 * @return 结果
+	 */
+	@Override
+	public int updateMtPerson(MtPerson mtPerson)
+	{
+		MtMeetInfo meetInfo = mtMeetInfoMapper.selectMtMeetInfoById(mtPerson.getMeetId());
+		List<MtThumInfo> thumInfoList = mtThumInfoMapper.selectMtThumInfoListByMeetId(mtPerson.getMeetId());
+		return mtPersonMapper.updateMtPerson(getPersonThumNum(mtPerson,meetInfo,thumInfoList));
+	}
+
+	/**
+	 * 删除参会人员对象
+	 *
+	 * @param ids 需要删除的数据ID
+	 * @return 结果
+	 */
 	@Override
 	public int deleteMtPersonByIds(String ids)
 	{
@@ -135,6 +139,8 @@ public class MtPersonServiceImpl implements IMtPersonService
 			try
 			{
 				// 验证是否存在这个用户
+				MtMeetInfo meetInfo = mtMeetInfoMapper.selectMtMeetInfoById(meetId);
+				List<MtThumInfo> thumInfoList = mtThumInfoMapper.selectMtThumInfoListByMeetId(meetId);
 				MtPerson query = new MtPerson();
 				query.setMeetId(meetId);
 				query.setPersonCode(person.getPersonCode());
@@ -144,7 +150,7 @@ public class MtPersonServiceImpl implements IMtPersonService
 					person.setPersonId(UUID.randomUUID().toString());
 					person.setCreateBy(operName);
 					person.setMeetId(meetId);
-					this.insertMtPerson(getPersonThumNum(person));
+					this.insertMtPerson(getPersonThumNum(person,meetInfo,thumInfoList));
 					successNum++;
 					successMsg.append("<br/>" + successNum + "、员工 " + person.getPersonCode() + person.getPersonName() + " 导入成功");
 				}
@@ -152,7 +158,7 @@ public class MtPersonServiceImpl implements IMtPersonService
 				{
 					person.setPersonId(p.getPersonId());
 					person.setUpdateBy(operName);
-					this.updateMtPerson(getPersonThumNum(person));
+					this.updateMtPerson(getPersonThumNum(person,meetInfo,thumInfoList));
 					successNum++;
 					successMsg.append("<br/>" + successNum + "、员工 " + person.getPersonCode() + person.getPersonName() + " 更新成功");
 				}
@@ -188,9 +194,8 @@ public class MtPersonServiceImpl implements IMtPersonService
 	 * @return
 	 */
 	@Override
-	public MtPerson getPersonThumNum(MtPerson mtPerson){
-		MtMeetInfo meetInfo = mtMeetInfoMapper.selectMtMeetInfoById(mtPerson.getMeetId());
-		List<MtThumInfo> thumInfoList = mtThumInfoMapper.selectMtThumInfoListByMeetId(mtPerson.getMeetId());
+	public MtPerson getPersonThumNum(MtPerson mtPerson, MtMeetInfo meetInfo, List<MtThumInfo> thumInfoList){
+
 		HashMap<Integer, List<MtThumInfo>> rowThumMap = new HashMap<Integer, List<MtThumInfo>>();
 
 		// 重新组合每行的座次图
