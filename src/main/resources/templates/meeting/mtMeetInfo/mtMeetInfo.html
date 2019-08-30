@@ -71,7 +71,10 @@
 				{
 					field : 'meetName', 
 					title : '会议名称',
-					sortable: true
+					sortable: true,
+                    formatter: function (value, row, index) {
+                        return '<a href="#" onclick="showQrCode(\'' + row.meetId + '\');" >' + value + '</a>';
+                    }
 				},
 				{
 					field : 'meetStart', 
@@ -135,6 +138,10 @@
             $.modal.openTab('日程编辑', url);
         }
 
+        function showQrCode(meetId) {
+			var url = prefix + "/showQrCode/" + meetId;
+            $.modal.open('二维码', url);
+        }
 
     </script>
 </body>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<th:block th:include="include :: header('二维码')" />
+	<th:block th:include="include :: jasny-bootstrap-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+		<span>移动端页面二维码</span>
+		<div id="qrcode">
+		</div>
+        <div class="row">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					移动端页面网址
+				</div>
+				<div class="panel-body">
+					<p th:text="${qrCodeUrl}"></p>
+				</div>
+
+			</div>
+		</div>
+    </div>
+    <div th:include="include::footer"></div>
+	<th:block th:include="include :: jasny-bootstrap-js" />
+	<th:block th:include="include :: qrcode-js" />
+	<script th:inline="javascript">
+
+        $(function() {
+            var qrCodeUrl = [[${qrCodeUrl}]];
+            $('#qrcode').empty();
+            $('#qrcode').qrcode({width: 200,height: 200,text: qrCodeUrl});
+		});
+
+	</script>
+</body>
+</html>

@@ -55,14 +55,14 @@
 					<span class="help-block red">图片必须为背景透明的png格式，<br>建议尺寸：1024px * 175px</span>
 					<div class="fileinput fileinput-new" data-provides="fileinput">
 						<div class="fileinput-new thumbnail" style="width: 273px; height: 46px;">
-							<img th:src="*{ctx+meetLogo}">
+							<img id="logo">
 						</div>
 						<div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 273px; max-height: 46px;"></div>
 						<div>
 							<span class="btn btn-white btn-file"><span class="fileinput-new">选择图片</span><span class="fileinput-exists">更改</span><input type="file" id="meetLogoFile" name="meetLogoFile" accept="image/png"></span>
 							<a href="#" class="btn btn-white fileinput-exists" data-dismiss="fileinput">清除</a>
 						</div>
-						<input type="hidden" id="meetLogo" name="meetLogo" />
+						<input type="hidden" id="meetLogo" name="meetLogo" th:field="*{meetLogo}" />
 					</div>
 				</div>
 			</div>
@@ -72,6 +72,12 @@
 	<th:block th:include="include :: jasny-bootstrap-js" />
 	<script type="text/javascript">
 		var prefix = ctx + "meeting/mtMeetInfo";
+		var imgUrl = imgCtx + '[[${mtMeetInfo.meetLogo}]]';
+
+        $(function() {
+            $("#logo").attr("src", imgUrl);
+		});
+
         dateTimeInit();
 		$("#form-mtMeetInfo-edit").validate({
 			rules:{

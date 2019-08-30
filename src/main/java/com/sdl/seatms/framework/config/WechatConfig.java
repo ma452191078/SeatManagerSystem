@@ -15,5 +15,4 @@ public class WechatConfig {
     private String corpId;
     private Integer agentId;
     private String secret;
-    private String redirectUrl;
 }

@@ -7,9 +7,9 @@ seatms:
     # 版权年份
     copyrightYear: 2019
     # 实例演示开关
-    demoEnabled: true
+    demoEnabled: false
     # 文件路径
-    profile: /usr/local/profile
+    profile: /usr/local/profile/
     # 获取ip地址开关
     addressEnabled: true
 
@@ -71,6 +71,5 @@ spring:
 # 企业微信配置
 wechatconfig:
     corpId: wxe83ec6aeca12528c
-    agentId: 39
-    secret: 7xwrmPgxbb-ytAiWq1WJz6c-M2GNR3SHNumO2_h4uFA
-    redirectUrl: http://weixin.shidanli.cn:8080/SeatManager/common/seat/index.html
+    agentId: 1000017
+    secret: -FCDUbE6MPnT4t1APlFwpJJFVeinXPqNozQ2y-WSQQs

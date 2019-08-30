@@ -42,6 +42,7 @@
 	<script th:src="@{/seatms/js/common.js?v=3.4.0}"></script>
 	<script th:src="@{/seatms/js/seatms-ui.js?v=3.4.0}"></script>
 	<script th:inline="javascript"> var ctx = [[@{/}]]; </script>
+	<script th:inline="javascript"> var imgCtx = 'http://weixin.shidanli.cn:8089' </script>
 </div>
 
 <!-- ztree树插件 -->
@@ -190,4 +191,8 @@
 
 <div th:fragment="store-js">
 	<script th:src="@{/js/store.min.js}"></script>
+</div>
+
+<div th:fragment="qrcode-js">
+	<script th:src="@{/js/jquery.qrcode.min.js}"></script>
 </div>

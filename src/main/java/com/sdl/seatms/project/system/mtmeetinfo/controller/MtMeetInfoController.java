@@ -1,5 +1,7 @@
 package com.sdl.seatms.project.system.mtmeetinfo.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.UUID;
 
@@ -129,5 +131,24 @@ public class MtMeetInfoController extends BaseController
 	{		
 		return toAjax(mtMeetInfoService.deleteMtMeetInfoByIds(ids));
 	}
-	
+
+
+	/**
+	 * 显示二维码
+	 */
+	@GetMapping("/showQrCode/{meetId}")
+	public String showQrCode(@PathVariable("meetId") String meetId, ModelMap mmap)
+	{
+		String qrCodeUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxe83ec6aeca12528c&redirect_uri=REDIRECT_URI&response_type=code&scope=snsapi_base#wechat_redirect";
+		String meetUrl = "http://weixin.shidanli.cn:8087/mobile/index/"+meetId;
+        String meetUrlEncode = null;
+        try {
+            meetUrlEncode = URLEncoder.encode(meetUrl,"UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            meetUrlEncode = URLEncoder.encode(meetUrl);
+        }
+        qrCodeUrl = qrCodeUrl.replace("REDIRECT_URI", meetUrlEncode);
+		mmap.put("qrCodeUrl", qrCodeUrl);
+		return prefix + "/qrCode";
+	}
 }
