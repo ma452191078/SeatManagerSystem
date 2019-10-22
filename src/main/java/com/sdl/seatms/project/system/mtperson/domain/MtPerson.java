@@ -30,8 +30,9 @@ public class MtPerson extends BaseEntity
 	@Excel(name = "部门")
 	private String personDept;
 	/** 区域 */
-	@Excel(name = "区域")
 	private String personArea;
+	@Excel(name = "区域")
+	private String areaId;
 	/** 行 */
 	@Excel(name = "行")
 	private Integer personRow;

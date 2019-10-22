@@ -38,13 +38,13 @@
 				<div>请选择一项查看位置</div>
 				<div v-for="personInfo in personList">
 					<input type="radio" v-bind:id="personInfo.personCode" name="status" v-bind:value="personInfo.personCode" @click="showSeat(personInfo)">
-					<label v-bind:for="personInfo.personCode">{{personInfo.personName}}({{personInfo.personCode}})</label>
-					<small>区域：{{personInfo.mtThumInfo.areaId}}，第{{personInfo.personRow}}排，第{{personInfo.personCol}}列</small>
+					<label v-bind:for="personInfo.personCode">区域：{{personInfo.mtThumInfo.areaId}}，第{{personInfo.personRow}}排，第{{personInfo.personCol}}列。<small>{{personInfo.personName}}({{personInfo.personCode}})</small></label>
+
 				</div>
 			</div>
 
 			<div v-else v-for="personInfo in personList">
-				<div>{{personInfo.personName}}({{personInfo.personCode}}) <br> <small>区域：{{personInfo.mtThumInfo.areaId}}，第{{personInfo.personRow}}排，第{{personInfo.personCol}}列</small></div>
+				<div>区域：{{personInfo.mtThumInfo.areaId}}，第{{personInfo.personRow}}排，第{{personInfo.personCol}}列。<small>{{personInfo.personName}}({{personInfo.personCode}})</small></div>
 			</div>
 		</div>
 		<div>

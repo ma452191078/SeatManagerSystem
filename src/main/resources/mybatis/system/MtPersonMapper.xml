@@ -19,31 +19,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createTime"    column="create_time"    />
         <result property="updateBy"    column="update_by"    />
         <result property="updateTime"    column="update_time"    />
+        <result property="areaId"    column="area_id"    />
         <association property="mtThumInfo" column="person_area"
                      select="com.sdl.seatms.project.system.mtthuminfo.mapper.MtThumInfoMapper.selectMtThumInfoById" />
     </resultMap>
 	
 	<sql id="selectMtPersonVo">
         select p.person_id, p.person_code, p.person_name, p.person_dept,p.person_area, p.person_row,
-        p.person_thum_row, p.person_col, p.person_thum_col, p.create_by, p.create_time, p.update_by, p.update_time, p.meet_id
+        p.person_thum_row, p.person_col, p.person_thum_col, p.create_by, p.create_time, p.update_by, p.update_time, p.meet_id,
+        t.area_id
         from mt_person p
         left join sys_user u on p.person_code = u.user_id
         left join sys_dept d on u.dept_id = d.dept_id
+        left join mt_thum_info t on t.thum_id = p.person_area
     </sql>
 	
     <select id="selectMtPersonList" parameterType="MtPerson" resultMap="MtPersonResult">
         <include refid="selectMtPersonVo"/>
         <where>  
-            <if test="personId != null  and personId != '' "> and person_id = #{personId}</if>
-             <if test="personCode != null  and personCode != '' "> and person_code = #{personCode}</if>
-             <if test="personName != null  and personName != '' "> and person_name = #{personName}</if>
-             <if test="personDept != null  and personDept != '' "> and person_dept = #{personDept}</if>
-             <if test="personArea != null  and personArea != '' "> and person_area = #{personArea}</if>
-             <if test="personRow != null "> and person_row = #{personRow}</if>
-             <if test="personCol != null "> and person_col = #{personCol}</if>
-             <if test="meetId != null and meetId != '' "> and meet_id = #{meetId}</if>
+            <if test="personId != null  and personId != '' "> and p.person_id = #{personId}</if>
+             <if test="personCode != null  and personCode != '' "> and p.person_code = #{personCode}</if>
+             <if test="personName != null  and personName != '' "> and p.person_name = #{personName}</if>
+             <if test="personDept != null  and personDept != '' "> and p.person_dept = #{personDept}</if>
+             <if test="personArea != null  and personArea != '' "> and p.person_area = #{personArea}</if>
+             <if test="personRow != null "> and p.person_row = #{personRow}</if>
+             <if test="personCol != null "> and p.person_col = #{personCol}</if>
+             <if test="meetId != null and meetId != '' "> and p.meet_id = #{meetId}</if>
          </where>
-        order by create_time desc
+        order by p.create_time desc
     </select>
     
     <select id="selectMtPersonById" parameterType="String" resultMap="MtPersonResult">

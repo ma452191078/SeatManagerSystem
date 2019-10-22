@@ -33,11 +33,13 @@
 					<div class="ibox-title panel-heading panel-new">
 						<h3 class="panel-title" th:text="${#dates.format(agenda.agendaDate,'M月d日')}"></h3>
 					</div>
-					<div class="ibox-content panel-content">
-						<div class="row" style="font-size: 15px;margin: 5px 0 5px 0;" th:each="item:${agenda.itemList}">
-							<div class="col-xs-5" th:text="${item.itemStart} + ' - ' + ${item.itemEnd}"></div>
-							<div class="col-xs-7" th:text="${item.itemContent}"></div>
-						</div>
+					<div class="ibox-content panel-content" style="padding: 5px;">
+						<table style="font-size: 14px;margin: 5px 0 5px 0; width: 100%; border: 0px;" >
+							<tr th:each="item:${agenda.itemList}">
+								<td style="width:40%;" th:text="${item.itemStart} + ' - ' + ${item.itemEnd}"></td>
+								<td style="width:60%;" th:text="${item.itemContent}"></td>
+							</tr>
+						</table>
 					</div>
 				</div>
 				<div th:if="${agendaStat.index == 3}" class="clearfix"></div>

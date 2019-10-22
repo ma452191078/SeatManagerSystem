@@ -18,10 +18,10 @@
                     </div>
                     <div class="ibox-content">
                         <div class="row" style="margin: 5px 0 5px 0;" th:each="item:${agenda.itemList}">
-                            <div class="col-sm-3" th:text="${item.itemStart} + ' - ' + ${item.itemEnd}"></div>
-                            <div class="col-sm-2" th:text="${item.itemCompere}"></div>
+                            <div class="col-sm-4" th:text="${item.itemStart} + ' - ' + ${item.itemEnd}"></div>
+                            <!--<div class="col-sm-2" th:text="${item.itemCompere}"></div>-->
                             <div class="col-sm-5" th:text="${item.itemContent}"></div>
-                            <div class="col-sm-2">
+                            <div class="col-sm-3">
                                 <button type="button" class="btn btn-primary btn-xs" th:onclick="goEditItem([[${item.itemId}]]);"><i class="fa fa-edit"></i></button>
                                 &nbsp;
                                 <button type="button" class="btn btn-danger btn-xs" th:onclick="goDeleteItem([[${item.itemId}]]);"><i class="fa fa-remove"></i></button>

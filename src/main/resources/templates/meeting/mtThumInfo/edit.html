@@ -54,14 +54,14 @@
 
     </div>
     <div th:include="include::footer"></div>
-	<th:block th:include="include :: bootstrap-colorpicker-js" />
 	<th:block th:include="include :: vue-js" />
+	<th:block th:include="include :: bootstrap-colorpicker-js" />
     <script type="text/javascript">
 		var prefix = ctx + "meeting/mtThumInfo";
         let vm = null;
 
         $(function () {
-            $('#color-picker').colorpicker();
+
             vm = new Vue({
                 el: '#body',
                 data: {
@@ -77,9 +77,16 @@
                         this.colNum = $("#v_col").val()*1;
                         console.log(this.colNum);
                     }
-                }
+                },
+                mounted() {
+                    colorInit();
+				}
             });
         });
+
+        function colorInit(){
+            $('#color-picker').colorpicker();
+		}
 
 		$("#form-mtThumInfo-edit").validate({
 			rules:{
