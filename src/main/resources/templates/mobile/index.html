@@ -29,14 +29,25 @@
 		</div>
 		<div class="row" style="margin: 40px 40px 0 40px;">
 			<div style="text-align: center;">
-				<input class="form-control" type="text" id="personCode" style="text-align: center;"/>
+				<input class="form-control" type="text" id="personName" style="text-align: center;"/>
 				<button type="button" class="btn btn-lg" style="margin-top:10px; margin-bottom10px; background: #ffffff;" th:onclick="getMeetInfo()"><i class="fa fa-search"></i> 搜索 </button>
 			</div>
 		</div>
-		<div class="row" style="padding: 20px;font-size: 20px; text-align: center;">
-			<div v-if="personInfo !== undefined">{{personInfo.personName}}({{personInfo.personCode}}) <br>  区域：{{personInfo.mtThumInfo.areaId}}，第{{personInfo.personRow}}排，第{{personInfo.personCol}}列</div>
+		<div class="row" style="padding: 20px;font-size: 15px; text-align: center;">
+			<div v-if="personList.length > 1">
+				<div>请选择一项查看位置</div>
+				<div v-for="personInfo in personList">
+					<input type="radio" v-bind:id="personInfo.personCode" name="status" v-bind:value="personInfo.personCode" @click="showSeat(personInfo)">
+					<label v-bind:for="personInfo.personCode">{{personInfo.personName}}({{personInfo.personCode}})</label>
+					<small>区域：{{personInfo.mtThumInfo.areaId}}，第{{personInfo.personRow}}排，第{{personInfo.personCol}}列</small>
+				</div>
+			</div>
+
+			<div v-else v-for="personInfo in personList">
+				<div>{{personInfo.personName}}({{personInfo.personCode}}) <br> <small>区域：{{personInfo.mtThumInfo.areaId}}，第{{personInfo.personRow}}排，第{{personInfo.personCol}}列</small></div>
+			</div>
 		</div>
-		<div >
+		<div>
 			<div>
 				<div class="meet-thum-platform">主席台</div>
 			</div>
@@ -68,12 +79,18 @@
             vm = new Vue({
                 el: '#body',
                 data: {
+                    personList: [],
                     personInfo:undefined,
                     meetInfo:{},
                     rowNum: 0,
                     colNum: 0
                 },
                 methods: {
+                    updatePsersonList: function(data){
+                        this.personList = data;
+                        this.rowNum=0;
+                        $(".meet-thum-item").attr("class", "meet-thum-item meet-thum-item-mobile");
+					},
                     updatePserson: function (data) {
 						this.personInfo = data;
 						$(".meet-thum-item").attr("class", "meet-thum-item meet-thum-item-mobile");
@@ -82,22 +99,24 @@
 					updateRowAndCol(row, col) {
                         this.rowNum = row;
                         this.colNum = col;
+					},
+					showSeat(person){
+                        this.updatePserson(person);
+                        this.updateRowAndCol(person.mtThumInfo.rowNum,person.mtThumInfo.colNum);
 					}
                 }
             });
             if (wxUser != null && wxUser !== undefined) {
-                $("#personCode").val(wxUser.userId);
                 store.set("userId", wxUser.userId);
-                getMeetInfo();
+                getMeetInfoByCode(wxUser.userId);
             }
             if (store("userId") !== undefined && store("userId") !== null ){
-                $("#personCode").val(store("userId"));
-                getMeetInfo();
+                getMeetInfoByCode(store("userId"));
             }
         });
 
-        function getMeetInfo() {
-            var data = {"personCode": $("#personCode").val(), "meetId":meetId};
+        function getMeetInfoByCode(personCode) {
+            var data = {"personCode": personCode, "meetId":meetId};
             var config = {
                 url: prefix + "/getPersonInfo",
                 type: "post",
@@ -108,8 +127,8 @@
                 },
                 success: function (result) {
                     if (result.code == web_status.SUCCESS) {
-						vm.updatePserson(result.mtPerson);
-						vm.updateRowAndCol(result.mtPerson.mtThumInfo.rowNum,result.mtPerson.mtThumInfo.colNum);
+                        vm.updatePsersonList(result.personList);
+                        vm.showSeat(result.personList[0]);
                         $.modal.closeLoading();
                     } else if (result.code == web_status.WARNING) {
                         $.modal.alertWarning(result.msg);
@@ -122,6 +141,37 @@
             $.ajax(config);
         }
 
+        function getMeetInfo() {
+            var data = {"personName": $("#personName").val(), "meetId":meetId};
+            var config = {
+                url: prefix + "/getPersonInfo",
+                type: "post",
+                dataType: "json",
+                data: data,
+                beforeSend: function () {
+                    $.modal.loading("正在查询，请稍后...");
+                },
+                success: function (result) {
+                    if (result.code == web_status.SUCCESS) {
+						if (result.personList.length > 1) {
+                            vm.updatePsersonList(result.personList);
+						} else {
+                            vm.updatePsersonList(result.personList);
+                            vm.showSeat(result.personList[0]);
+						}
+
+
+                        $.modal.closeLoading();
+                    } else if (result.code == web_status.WARNING) {
+                        $.modal.alertWarning(result.msg);
+                    } else {
+                        $.modal.alertError(result.msg);
+                    }
+                    $.modal.closeLoading();
+                }
+            };
+            $.ajax(config);
+        }
     </script>
 </body>
 </html>

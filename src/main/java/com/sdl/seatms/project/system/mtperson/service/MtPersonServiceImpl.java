@@ -13,6 +13,7 @@ import com.sdl.seatms.project.system.mtmeetinfo.mapper.MtMeetInfoMapper;
 import com.sdl.seatms.project.system.mtthuminfo.domain.MtThumInfo;
 import com.sdl.seatms.project.system.mtthuminfo.mapper.MtThumInfoMapper;
 import com.sdl.seatms.project.system.user.domain.User;
+import com.sdl.seatms.project.system.user.mapper.UserMapper;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,6 +39,9 @@ public class MtPersonServiceImpl implements IMtPersonService
 
     @Autowired
     private MtThumInfoMapper mtThumInfoMapper;
+
+    @Autowired
+    private UserMapper userMapper;
     /**
      * 查询参会人员信息
      *
@@ -145,9 +149,12 @@ public class MtPersonServiceImpl implements IMtPersonService
                 query.setMeetId(meetId);
                 query.setPersonCode(person.getPersonCode());
                 MtPerson p = mtPersonMapper.selectMtPersonByObject(query);
+                User user = userMapper.selectUserById(Long.parseLong(person.getPersonCode()));
                 if (StringUtils.isNull(p))
                 {
                     person.setPersonId(UUID.randomUUID().toString());
+                    person.setPersonName(user.getUserName());
+                    person.setPersonDept(user.getDept().getDeptName());
                     person.setCreateBy(operName);
                     person.setMeetId(meetId);
                     this.insertMtPerson(getPersonThumNum(person,meetInfo,thumInfoList));
@@ -157,6 +164,8 @@ public class MtPersonServiceImpl implements IMtPersonService
                 else if (isUpdateSupport)
                 {
                     person.setPersonId(p.getPersonId());
+                    person.setPersonName(p.getPersonName());
+                    person.setPersonDept(p.getPersonDept());
                     person.setUpdateBy(operName);
                     this.updateMtPerson(getPersonThumNum(person,meetInfo,thumInfoList));
                     successNum++;

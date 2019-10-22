@@ -95,7 +95,6 @@ public class MobileController extends BaseController
         return prefix + "/index";
     }
 
-
     @PostMapping("/getPersonInfo")
     @ResponseBody
     public HashMap<String, Object> getPersonInfo(MtPerson person)
@@ -103,15 +102,20 @@ public class MobileController extends BaseController
         HashMap<String, Object> result = new HashMap<>();
         int code = 1;
         String msg = "";
-        if (StringUtils.isNotEmpty(person.getPersonCode())){
-            MtPerson mtPerson = mtPersonService.selectMtPersonByCode(person.getPersonCode());
-            if (mtPerson != null ){
-                MtThumInfo mtThumInfo = mtThumInfoService.selectMtThumInfoByAreaId(mtPerson.getMeetId(),mtPerson.getPersonArea());
-                mtPerson.setMtThumInfo(mtThumInfo);
-                result.put("mtPerson", mtPerson);
-                code = 0;
-                msg = "成功";
+        if (StringUtils.isNotEmpty(person.getPersonName())){
+
+            List<MtPerson> personList = mtPersonService.selectMtPersonList(person);
+            if (personList != null && personList.size() > 0) {
+                for (int i = 0; i < personList.size(); i ++) {
+                    MtThumInfo mtThumInfo = mtThumInfoService.selectMtThumInfoByAreaId(personList.get(i).getMeetId(),personList.get(i).getPersonArea());
+                    personList.get(i).setMtThumInfo(mtThumInfo);
+                }
             }
+
+            result.put("personList", personList);
+            code = 0;
+            msg = "成功";
+
         } else {
             msg = "请输入姓名";
         }

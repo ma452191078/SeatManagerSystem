@@ -34,7 +34,7 @@
             			<a class="menuItem" title="个人中心" th:href="@{/system/user/profile}"> 
             				<div class="hide" th:text="个人中心"></div>
 					        <div class="pull-left image">
-		                    	<img th:src="(${user.avatar} == '') ? @{/img/profile.jpg} : @{${user.avatar}}" class="img-circle" alt="User Image">
+		                    	<img th:src="(${user.avatar} == '') ? @{/img/profile.png} : @{${user.avatar}}" class="img-circle" alt="User Image">
 					        </div>
 				        </a>
 				        <div class="pull-left info">
@@ -165,7 +165,7 @@
 				    <li><a title="全屏显示" href="javascript:void(0)" id="fullScreen"><i class="fa fa-arrows-alt"></i> 全屏显示</a></li>
                     <li class="dropdown user-menu">
 						<a href="javascript:void(0)" class="dropdown-toggle" data-hover="dropdown">
-							<img th:src="(${user.avatar} == '') ? @{/img/profile.jpg} : @{${user.avatar}}" class="user-image">
+							<img th:src="(${user.avatar} == '') ? @{/img/profile.png} : @{${user.avatar}}" class="user-image">
 							<span class="hidden-xs">[[${user.userName}]]</span>
 						</a>
 						<ul class="dropdown-menu">
@@ -209,7 +209,7 @@
                     th:src="@{/system/main}" frameborder="0" seamless></iframe>
         </div>
         <div class="footer">
-            <div class="pull-right">© [[${copyrightYear}]] RuoYi Copyright </div>
+            <div class="pull-right">© [[${copyrightYear}]] 史丹利 Copyright </div>
         </div>
     </div>
     <!--右侧部分结束-->

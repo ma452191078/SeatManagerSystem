@@ -318,6 +318,8 @@
             			var formData = new FormData();
             			formData.append("file", $('#file')[0].files[0]);
             			formData.append("updateSupport", $("input[name='updateSupport']").is(':checked'));
+            			debugger;
+            			formData.append("meetId",$("input[name='meetId']").val());
             			$.ajax({
             				url: $.table._option.importUrl,
             				data: formData,
