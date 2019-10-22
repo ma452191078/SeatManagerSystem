@@ -102,7 +102,7 @@ public class MobileController extends BaseController
         HashMap<String, Object> result = new HashMap<>();
         int code = 1;
         String msg = "";
-        if (StringUtils.isNotEmpty(person.getPersonName())){
+        if (StringUtils.isNotEmpty(person.getPersonName()) || StringUtils.isNotEmpty(person.getPersonCode())){
 
             List<MtPerson> personList = mtPersonService.selectMtPersonList(person);
             if (personList != null && personList.size() > 0) {
